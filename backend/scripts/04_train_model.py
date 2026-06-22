@@ -79,9 +79,20 @@ def main():
 
     model, model_type, cv_r2 = fit_and_select_model(X, y, groups)
 
-    league_baseline = float(df["epa_per_play"].mean())
+    # Round the coefficients/intercept/baseline to the Part 0 3-decimal convention
+    # *before* computing predicted_epa, not after — model_coefficients.json only ever
+    # stores the rounded numbers, and inference.py's predict() only ever has those
+    # rounded numbers to work with. Deriving predicted_epa from the full-precision
+    # sklearn model and only rounding for display would make the live what-if
+    # endpoint permanently unable to reproduce these stored values (the
+    # test_inference_roundtrip / test_whatif_roundtrip 1e-6 tolerance in 2.4/2.9
+    # would be unsatisfiable). Rounding first keeps every artifact self-consistent
+    # with what actually gets served.
+    intercept = round(float(model.intercept_), 3)
+    coefficients = {feat: round(float(coef), 3) for feat, coef in zip(FEATURES, model.coef_)}
+    league_baseline = round(float(df["epa_per_play"].mean()), 3)
 
-    df["predicted_epa"] = model.predict(X)
+    df["predicted_epa"] = intercept + sum(coefficients[feat] * df[feat] for feat in FEATURES)
     df["support_component"] = df["predicted_epa"] - league_baseline
     df["qb_component"] = df["epa_per_play"] - df["predicted_epa"]
     df["support_share"] = (
@@ -104,11 +115,10 @@ def main():
         for feat in FEATURES
     }
 
-    coefficients = {feat: float(coef) for feat, coef in zip(FEATURES, model.coef_)}
     model_coefficients = {
-        "intercept": round(float(model.intercept_), 3),
-        "coefficients": {k: round(v, 3) for k, v in coefficients.items()},
-        "league_baseline": round(league_baseline, 3),
+        "intercept": intercept,
+        "coefficients": coefficients,
+        "league_baseline": league_baseline,
         "feature_ranges": {k: [round(v[0], 3), round(v[1], 3)] for k, v in feature_ranges.items()},
         "r_squared": round(float(cv_r2), 3),
     }
