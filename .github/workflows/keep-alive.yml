@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Ping health endpoint
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 https://qb-true-value-api.onrender.com/api/health)
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 https://qb-true-value.onrender.com/api/health)
           if [ "$STATUS" != "200" ]; then
             echo "Health check failed with status $STATUS"
             exit 1
