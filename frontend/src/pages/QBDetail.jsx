@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getQBDetail } from '../lib/api'
 import DecompositionChart from '../components/DecompositionChart'
+import WhatIfPanel from '../components/WhatIfPanel'
 
 const FETCH_TIMEOUT_MS = 8000
 
@@ -48,7 +49,6 @@ export default function QBDetail() {
     return () => clearTimeout(timer)
   }, [qbId, season])
 
-  // eslint-disable-next-line no-unused-vars -- wired into WhatIfPanel's onResult in 4.7
   function handleWhatIfResult(result) {
     setDisplayed({
       leagueBaseline: detail.league_baseline,
@@ -84,7 +84,14 @@ export default function QBDetail() {
             total={displayed.total}
           />
 
-          {/* WhatIfPanel (4.7) mounts here, calling handleWhatIfResult via onResult */}
+          <WhatIfPanel
+            key={`${detail.qb_id}_${detail.season}`}
+            qbId={detail.qb_id}
+            season={detail.season}
+            featureRanges={detail.feature_ranges}
+            initialValues={detail.raw_features}
+            onResult={handleWhatIfResult}
+          />
         </>
       )}
     </main>
