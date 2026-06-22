@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { getLeaderboard, getQBDetail } from '../lib/api'
 import DecompositionChart from '../components/DecompositionChart'
 import WhatIfPanel from '../components/WhatIfPanel'
+import YearOverYearChart from '../components/YearOverYearChart'
 import { withRankDelta } from '../lib/ranks'
 
 const FETCH_TIMEOUT_MS = 8000
@@ -24,6 +25,11 @@ export default function QBDetail() {
   // clean interpretation, so this is fetched once and left untouched by
   // handleWhatIfResult below.
   const [rank, setRank] = useState(null)
+
+  // This QB's full season history, derived from the leaderboard's full 250-row pool
+  // (already fetched for the rank lookup) rather than a second fetch -- the
+  // leaderboard already carries qb_id, season, epa_per_play, and qb_created_epa.
+  const [ownSeasons, setOwnSeasons] = useState([])
 
   useEffect(() => {
     let timedOut = false
@@ -49,6 +55,7 @@ export default function QBDetail() {
         const withRanks = withRankDelta(leaderboard)
         const own = withRanks.find((row) => row.qb_id === qbId && row.season === Number(season))
         setRank(own?.createdRank ?? null)
+        setOwnSeasons(leaderboard.filter((row) => row.qb_id === qbId))
         setStatus('loaded')
       })
       .catch(() => {
@@ -108,6 +115,8 @@ export default function QBDetail() {
             actualEpaPerPlay={detail.epa_per_play}
             actualQbComponent={detail.qb_component}
           />
+
+          <YearOverYearChart qbId={detail.qb_id} seasons={ownSeasons} />
         </>
       )}
     </main>
