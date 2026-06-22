@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.routers import qbs
 from app.schemas import HealthResponse
 
 app = FastAPI(title="QB True Value API")
@@ -17,3 +18,6 @@ app.add_middleware(
 @app.get("/api/health", response_model=HealthResponse)
 def health() -> HealthResponse:
     return HealthResponse(status="ok")
+
+
+app.include_router(qbs.router, prefix="/api")
