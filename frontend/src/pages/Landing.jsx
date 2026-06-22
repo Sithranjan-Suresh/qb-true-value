@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getQBDetail } from '../lib/api'
+import { getLeaderboard, getQBDetail } from '../lib/api'
 import DecompositionChart from '../components/DecompositionChart'
+import { withRankDelta } from '../lib/ranks'
 
 // C.J. Stroud, 2023: raw EPA/play ranks 80th of 250 qualifying QB-seasons, but his
 // qb_component ranks 5th -- a rookie whose situation undersold him on paper. Same
@@ -11,6 +12,7 @@ const FETCH_TIMEOUT_MS = 8000
 
 export default function Landing() {
   const [detail, setDetail] = useState(null)
+  const [rank, setRank] = useState(null)
   const [status, setStatus] = useState('loading')
 
   useEffect(() => {
@@ -20,11 +22,16 @@ export default function Landing() {
       setStatus('fallback')
     }, FETCH_TIMEOUT_MS)
 
-    getQBDetail(FEATURED_QB.qbId, FEATURED_QB.season)
-      .then((data) => {
+    Promise.all([getQBDetail(FEATURED_QB.qbId, FEATURED_QB.season), getLeaderboard()])
+      .then(([data, leaderboard]) => {
         if (timedOut) return
         clearTimeout(timer)
         setDetail(data)
+        const withRanks = withRankDelta(leaderboard)
+        const own = withRanks.find(
+          (row) => row.qb_id === FEATURED_QB.qbId && row.season === FEATURED_QB.season,
+        )
+        setRank(own?.createdRank ?? null)
         setStatus('loaded')
       })
       .catch(() => {
@@ -58,6 +65,9 @@ export default function Landing() {
               supportComponent={detail.support_component}
               qbComponent={detail.qb_component}
               total={detail.epa_per_play}
+              qbName={detail.qb_name}
+              rank={rank}
+              calloutText="Support hurt Stroud's numbers"
             />
           </div>
         )}

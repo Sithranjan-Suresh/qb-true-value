@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getQBDetail } from '../lib/api'
+import { getLeaderboard, getQBDetail } from '../lib/api'
 import DecompositionChart from '../components/DecompositionChart'
 import WhatIfPanel from '../components/WhatIfPanel'
+import { withRankDelta } from '../lib/ranks'
 
 const FETCH_TIMEOUT_MS = 8000
 
@@ -17,6 +18,13 @@ export default function QBDetail() {
   // or hypothetical.
   const [displayed, setDisplayed] = useState(null)
 
+  // The "ranking #N all-time" sentence always reflects this QB-season's real
+  // recorded rank, not a live re-rank against a hypothetical what-if value --
+  // re-ranking the whole dataset against one counterfactual number doesn't have a
+  // clean interpretation, so this is fetched once and left untouched by
+  // handleWhatIfResult below.
+  const [rank, setRank] = useState(null)
+
   useEffect(() => {
     let timedOut = false
     const timer = setTimeout(() => {
@@ -27,8 +35,8 @@ export default function QBDetail() {
     // Reset to loading when navigating from one QB's page to another without unmounting.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setStatus('loading')
-    getQBDetail(qbId, Number(season))
-      .then((data) => {
+    Promise.all([getQBDetail(qbId, Number(season)), getLeaderboard()])
+      .then(([data, leaderboard]) => {
         if (timedOut) return
         clearTimeout(timer)
         setDetail(data)
@@ -38,6 +46,9 @@ export default function QBDetail() {
           qbComponent: data.qb_component,
           total: data.epa_per_play,
         })
+        const withRanks = withRankDelta(leaderboard)
+        const own = withRanks.find((row) => row.qb_id === qbId && row.season === Number(season))
+        setRank(own?.createdRank ?? null)
         setStatus('loaded')
       })
       .catch(() => {
@@ -82,6 +93,8 @@ export default function QBDetail() {
             supportComponent={displayed.supportComponent}
             qbComponent={displayed.qbComponent}
             total={displayed.total}
+            qbName={detail.qb_name}
+            rank={rank}
           />
 
           <WhatIfPanel

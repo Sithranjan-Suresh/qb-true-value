@@ -9,7 +9,28 @@ function formatSigned(value) {
   return value >= 0 ? `+${rounded}` : rounded
 }
 
-export default function DecompositionChart({ leagueBaseline, supportComponent, qbComponent, total }) {
+// y is always the top-left pixel of the rendered rect (recharts draws the "delta"
+// segment's height upward from its stacked offset regardless of the underlying
+// value's sign, since delta itself is always a positive magnitude), so the label
+// always sits just above y -- no sign-dependent branching needed.
+function BarValueLabel({ x, y, width, index, data }) {
+  const entry = data[index]
+  return (
+    <text x={x + width / 2} y={y - 8} textAnchor="middle" fill="#ffffff" fontSize={13} fontWeight={500}>
+      {entry.label}
+    </text>
+  )
+}
+
+export default function DecompositionChart({
+  leagueBaseline,
+  supportComponent,
+  qbComponent,
+  total,
+  qbName,
+  rank,
+  calloutText,
+}) {
   const afterSupport = leagueBaseline + supportComponent
   const afterQb = afterSupport + qbComponent
 
@@ -23,7 +44,7 @@ export default function DecompositionChart({ leagueBaseline, supportComponent, q
       base: Math.min(0, leagueBaseline),
       delta: Math.abs(leagueBaseline),
       fill: TOTAL_COLOR,
-      label: leagueBaseline.toFixed(3),
+      label: formatSigned(leagueBaseline),
     },
     {
       name: 'Support',
@@ -44,28 +65,54 @@ export default function DecompositionChart({ leagueBaseline, supportComponent, q
       base: Math.min(0, total),
       delta: Math.abs(total),
       fill: TOTAL_COLOR,
-      label: total.toFixed(3),
+      label: formatSigned(total),
     },
   ]
 
+  const supportVerb = supportComponent >= 0 ? 'helped' : 'hurt'
+  const supportMagnitude = Math.abs(supportComponent).toFixed(3)
+  const sentence =
+    qbName != null && rank != null
+      ? `${qbName}'s supporting context ${supportVerb} his production by ${supportMagnitude} EPA/play. After accounting for this, he created ${qbComponent.toFixed(3)} EPA/play independently — ranking #${rank} all-time in this dataset.`
+      : null
+
   return (
-    <ResponsiveContainer width="100%" height={320}>
-      <BarChart data={data} margin={{ top: 24, right: 16, left: 16, bottom: 8 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#262a35" vertical={false} />
-        <XAxis dataKey="name" stroke="#9ca3af" />
-        <YAxis stroke="#9ca3af" />
-        <Tooltip
-          contentStyle={{ background: '#14161d', border: '1px solid #262a35' }}
-          labelStyle={{ color: '#e5e7eb' }}
-          formatter={(value, key, { payload }) => [payload.label, 'EPA/play']}
-        />
-        <Bar dataKey="base" stackId="waterfall" fill="transparent" isAnimationActive={false} />
-        <Bar dataKey="delta" stackId="waterfall" isAnimationActive={false} radius={[4, 4, 0, 0]}>
-          {data.map((entry) => (
-            <Cell key={entry.name} fill={entry.fill} />
-          ))}
-        </Bar>
-      </BarChart>
-    </ResponsiveContainer>
+    <div className="relative">
+      <ResponsiveContainer width="100%" height={320}>
+        <BarChart data={data} margin={{ top: 24, right: 16, left: 16, bottom: 8 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#262a35" vertical={false} />
+          <XAxis dataKey="name" stroke="#9ca3af" />
+          <YAxis stroke="#9ca3af" />
+          <Tooltip
+            contentStyle={{ background: '#14161d', border: '1px solid #262a35' }}
+            labelStyle={{ color: '#e5e7eb' }}
+            formatter={(value, key, { payload }) => [payload.label, 'EPA/play']}
+          />
+          <Bar dataKey="base" stackId="waterfall" fill="transparent" isAnimationActive={false} />
+          <Bar
+            dataKey="delta"
+            stackId="waterfall"
+            isAnimationActive={false}
+            radius={[4, 4, 0, 0]}
+            label={(props) => <BarValueLabel {...props} data={data} />}
+          >
+            {data.map((entry) => (
+              <Cell key={entry.name} fill={entry.fill} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+
+      {calloutText && (
+        <div className="absolute text-center" style={{ left: '37.5%', top: '8px', transform: 'translateX(-50%)' }}>
+          <p className="text-xs text-(--color-support) bg-(--color-bg) border border-(--color-border) rounded px-2 py-1 whitespace-nowrap">
+            {calloutText}
+          </p>
+          <p className="text-(--color-support) leading-none">↓</p>
+        </div>
+      )}
+
+      {sentence && <p className="text-sm text-gray-300 mt-2">{sentence}</p>}
+    </div>
   )
 }
