@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getLeaderboard } from '../lib/api'
 import LeaderboardTable from '../components/LeaderboardTable'
+import BiggestMovers from '../components/BiggestMovers'
 
 const FETCH_TIMEOUT_MS = 8000
 
@@ -37,6 +38,8 @@ export default function Leaderboard() {
   return (
     <main className="px-6 py-10 max-w-5xl mx-auto">
       <h1 className="text-2xl font-semibold text-white mb-6">Leaderboard</h1>
+
+      <BiggestMovers />
 
       {status === 'loading' && (
         <div className="h-96 rounded-lg border border-(--color-border) bg-(--color-surface) animate-pulse" />
