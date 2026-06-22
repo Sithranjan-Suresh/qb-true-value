@@ -9,20 +9,20 @@
   "league_baseline": 0.043,
   "feature_ranges": {
     "avg_separation": [
-      2.583,
-      3.368
+      2.186,
+      3.84
     ],
     "time_to_throw": [
-      2.52,
-      3.04
+      2.3,
+      3.24
     ],
     "pass_block_win_rate": [
-      0.5,
-      0.695
+      0.41,
+      0.76
     ],
     "opponent_def_epa": [
-      -0.046,
-      0.033
+      -0.059,
+      0.076
     ]
   },
   "r_squared": 0.034

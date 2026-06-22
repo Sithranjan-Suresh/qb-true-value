@@ -6,6 +6,7 @@ Usage:
     python 04_train_model.py
 """
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -110,8 +111,16 @@ def main():
 
     run_sanity_checks(df)
 
+    # Base range is the 5th/95th percentile (Part 0), widened just enough to also
+    # cover every qualifying QB-season's own actual value. Without this, a QB whose
+    # own stat is itself an outlier (e.g. Mahomes' avg_separation) would 422 on the
+    # what-if endpoint when sent their own real recorded values, breaking "reset to
+    # actual" and the required whatif round-trip test.
     feature_ranges = {
-        feat: [float(np.percentile(df[feat], 5)), float(np.percentile(df[feat], 95))]
+        feat: [
+            math.floor(min(np.percentile(df[feat], 5), df[feat].min()) * 1000) / 1000,
+            math.ceil(max(np.percentile(df[feat], 95), df[feat].max()) * 1000) / 1000,
+        ]
         for feat in FEATURES
     }
 
