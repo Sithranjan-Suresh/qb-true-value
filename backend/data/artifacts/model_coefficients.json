@@ -1,16 +1,16 @@
 {
   "intercept": -0.075,
   "coefficients": {
-    "avg_separation": 0.03,
-    "time_to_throw": -0.125,
-    "pass_block_win_rate": 0.643,
-    "opponent_def_epa": 1.077
+    "avg_separation": 0.032,
+    "time_to_throw": -0.132,
+    "pass_block_win_rate": 0.665,
+    "opponent_def_epa": 1.079
   },
-  "league_baseline": 0.041,
+  "league_baseline": 0.043,
   "feature_ranges": {
     "avg_separation": [
-      2.582,
-      3.339
+      2.583,
+      3.368
     ],
     "time_to_throw": [
       2.52,
@@ -18,12 +18,12 @@
     ],
     "pass_block_win_rate": [
       0.5,
-      0.698
+      0.695
     ],
     "opponent_def_epa": [
       -0.046,
       0.033
     ]
   },
-  "r_squared": 0.04
+  "r_squared": 0.034
 }
