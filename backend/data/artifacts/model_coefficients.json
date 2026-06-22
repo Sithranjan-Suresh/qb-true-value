@@ -1,0 +1,29 @@
+{
+  "intercept": -0.075,
+  "coefficients": {
+    "avg_separation": 0.03,
+    "time_to_throw": -0.125,
+    "pass_block_win_rate": 0.643,
+    "opponent_def_epa": 1.077
+  },
+  "league_baseline": 0.041,
+  "feature_ranges": {
+    "avg_separation": [
+      2.582,
+      3.339
+    ],
+    "time_to_throw": [
+      2.52,
+      3.04
+    ],
+    "pass_block_win_rate": [
+      0.5,
+      0.698
+    ],
+    "opponent_def_epa": [
+      -0.046,
+      0.033
+    ]
+  },
+  "r_squared": 0.04
+}
