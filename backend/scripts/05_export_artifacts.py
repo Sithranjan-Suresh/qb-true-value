@@ -24,14 +24,20 @@ def round3(value) -> float:
 def build_leaderboard(df: pd.DataFrame) -> list:
     leaderboard = []
     for row in df.itertuples():
+        # qb_created_epa is derived the same way as qb_decomposition.json's
+        # qb_component, so the two files never disagree on this number.
+        epa_per_play_r = round3(row.epa_per_play)
+        predicted_epa_r = round3(row.predicted_epa)
+        qb_created_epa_r = round(epa_per_play_r - predicted_epa_r, 3)
+
         leaderboard.append(
             {
                 "qb_id": row.qb_id,
                 "qb_name": row.qb_name,
                 "team": row.team,
                 "season": int(row.season),
-                "epa_per_play": round3(row.epa_per_play),
-                "qb_created_epa": round3(row.qb_component),
+                "epa_per_play": epa_per_play_r,
+                "qb_created_epa": qb_created_epa_r,
                 "support_share": round3(row.support_share),
                 "attempts": int(row.attempts),
             }
@@ -43,15 +49,29 @@ def build_decomposition(df: pd.DataFrame) -> dict:
     decomposition = {}
     for row in df.itertuples():
         key = f"{row.qb_id}_{int(row.season)}"
+
+        # Round league_baseline/epa_per_play/predicted_epa first, then *derive*
+        # support_component and qb_component from those rounded numbers rather than
+        # rounding each independently. Rounding all five terms separately can drift
+        # the published identity (league_baseline + support + qb == epa_per_play) by
+        # up to 0.001 -- observed on 55/250 rows -- which breaks the <1e-6 tolerance
+        # spec 2.6 requires to survive serialization. Deriving the two components
+        # from the already-rounded totals makes the identity hold by construction.
+        league_baseline_r = round3(row.league_baseline)
+        epa_per_play_r = round3(row.epa_per_play)
+        predicted_epa_r = round3(row.predicted_epa)
+        support_component_r = round(predicted_epa_r - league_baseline_r, 3)
+        qb_component_r = round(epa_per_play_r - predicted_epa_r, 3)
+
         decomposition[key] = {
             "qb_name": row.qb_name,
             "team": row.team,
             "season": int(row.season),
-            "league_baseline": round3(row.league_baseline),
-            "support_component": round3(row.support_component),
-            "qb_component": round3(row.qb_component),
-            "epa_per_play": round3(row.epa_per_play),
-            "predicted_epa": round3(row.predicted_epa),
+            "league_baseline": league_baseline_r,
+            "support_component": support_component_r,
+            "qb_component": qb_component_r,
+            "epa_per_play": epa_per_play_r,
+            "predicted_epa": predicted_epa_r,
             "raw_features": {feat: round3(getattr(row, feat)) for feat in FEATURES},
         }
     return decomposition

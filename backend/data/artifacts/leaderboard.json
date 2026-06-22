@@ -5,7 +5,7 @@
     "team": "NE",
     "season": 2019,
     "epa_per_play": 0.021,
-    "qb_created_epa": -0.015,
+    "qb_created_epa": -0.016,
     "support_share": 0.289,
     "attempts": 679
   },
@@ -15,7 +15,7 @@
     "team": "TB",
     "season": 2020,
     "epa_per_play": 0.205,
-    "qb_created_epa": 0.128,
+    "qb_created_epa": 0.127,
     "support_share": 0.214,
     "attempts": 773
   },
@@ -25,7 +25,7 @@
     "team": "TB",
     "season": 2021,
     "epa_per_play": 0.16,
-    "qb_created_epa": 0.087,
+    "qb_created_epa": 0.088,
     "support_share": 0.252,
     "attempts": 838
   },
@@ -65,7 +65,7 @@
     "team": "PIT",
     "season": 2020,
     "epa_per_play": 0.076,
-    "qb_created_epa": -0.021,
+    "qb_created_epa": -0.022,
     "support_share": 0.719,
     "attempts": 696
   },
@@ -85,7 +85,7 @@
     "team": "LAC",
     "season": 2019,
     "epa_per_play": 0.092,
-    "qb_created_epa": 0.04,
+    "qb_created_epa": 0.039,
     "support_share": 0.196,
     "attempts": 623
   },
@@ -105,7 +105,7 @@
     "team": "WAS",
     "season": 2020,
     "epa_per_play": -0.137,
-    "qb_created_epa": -0.213,
+    "qb_created_epa": -0.212,
     "support_share": 0.132,
     "attempts": 274
   },
@@ -175,7 +175,7 @@
     "team": "MIA",
     "season": 2019,
     "epa_per_play": 0.042,
-    "qb_created_epa": 0.159,
+    "qb_created_epa": 0.158,
     "support_share": 0.501,
     "attempts": 543
   },
@@ -395,7 +395,7 @@
     "team": "NO",
     "season": 2022,
     "epa_per_play": 0.019,
-    "qb_created_epa": -0.047,
+    "qb_created_epa": -0.046,
     "support_share": 0.323,
     "attempts": 404
   },
@@ -425,7 +425,7 @@
     "team": "SEA",
     "season": 2020,
     "epa_per_play": 0.107,
-    "qb_created_epa": 0.078,
+    "qb_created_epa": 0.079,
     "support_share": 0.158,
     "attempts": 638
   },
@@ -515,7 +515,7 @@
     "team": "MIN",
     "season": 2022,
     "epa_per_play": 0.055,
-    "qb_created_epa": 0.031,
+    "qb_created_epa": 0.03,
     "support_share": 0.376,
     "attempts": 729
   },
@@ -565,7 +565,7 @@
     "team": "TEN",
     "season": 2020,
     "epa_per_play": 0.241,
-    "qb_created_epa": 0.187,
+    "qb_created_epa": 0.186,
     "support_share": 0.058,
     "attempts": 534
   },
@@ -625,7 +625,7 @@
     "team": "SEA",
     "season": 2024,
     "epa_per_play": 0.032,
-    "qb_created_epa": -0.01,
+    "qb_created_epa": -0.011,
     "support_share": 0.03,
     "attempts": 629
   },
@@ -675,7 +675,7 @@
     "team": "LV",
     "season": 2019,
     "epa_per_play": 0.152,
-    "qb_created_epa": 0.076,
+    "qb_created_epa": 0.077,
     "support_share": 0.299,
     "attempts": 541
   },
@@ -685,7 +685,7 @@
     "team": "LV",
     "season": 2020,
     "epa_per_play": 0.093,
-    "qb_created_epa": 0.019,
+    "qb_created_epa": 0.018,
     "support_share": 0.632,
     "attempts": 540
   },
@@ -725,7 +725,7 @@
     "team": "NO",
     "season": 2024,
     "epa_per_play": 0.137,
-    "qb_created_epa": 0.091,
+    "qb_created_epa": 0.09,
     "support_share": 0.041,
     "attempts": 290
   },
@@ -745,7 +745,7 @@
     "team": "SF",
     "season": 2021,
     "epa_per_play": 0.134,
-    "qb_created_epa": 0.06,
+    "qb_created_epa": 0.059,
     "support_share": 0.349,
     "attempts": 546
   },
@@ -775,7 +775,7 @@
     "team": "CLE",
     "season": 2024,
     "epa_per_play": -0.068,
-    "qb_created_epa": -0.155,
+    "qb_created_epa": -0.156,
     "support_share": 0.224,
     "attempts": 326
   },
@@ -835,7 +835,7 @@
     "team": "PHI",
     "season": 2019,
     "epa_per_play": 0.029,
-    "qb_created_epa": -0.01,
+    "qb_created_epa": -0.011,
     "support_share": 0.246,
     "attempts": 650
   },
@@ -905,7 +905,7 @@
     "team": "DAL",
     "season": 2022,
     "epa_per_play": 0.111,
-    "qb_created_epa": 0.113,
+    "qb_created_epa": 0.114,
     "support_share": 0.287,
     "attempts": 486
   },
@@ -995,7 +995,7 @@
     "team": "DET",
     "season": 2024,
     "epa_per_play": 0.258,
-    "qb_created_epa": 0.173,
+    "qb_created_epa": 0.174,
     "support_share": 0.192,
     "attempts": 607
   },
@@ -1015,7 +1015,7 @@
     "team": "IND",
     "season": 2019,
     "epa_per_play": 0.018,
-    "qb_created_epa": -0.069,
+    "qb_created_epa": -0.068,
     "support_share": 0.387,
     "attempts": 472
   },
@@ -1185,7 +1185,7 @@
     "team": "KC",
     "season": 2025,
     "epa_per_play": 0.168,
-    "qb_created_epa": 0.046,
+    "qb_created_epa": 0.045,
     "support_share": 0.635,
     "attempts": 537
   },
@@ -1195,7 +1195,7 @@
     "team": "CAR",
     "season": 2019,
     "epa_per_play": -0.041,
-    "qb_created_epa": -0.021,
+    "qb_created_epa": -0.02,
     "support_share": 0.755,
     "attempts": 536
   },
@@ -1225,7 +1225,7 @@
     "team": "BAL",
     "season": 2019,
     "epa_per_play": 0.304,
-    "qb_created_epa": 0.228,
+    "qb_created_epa": 0.227,
     "support_share": 0.129,
     "attempts": 486
   },
@@ -1295,7 +1295,7 @@
     "team": "CLE",
     "season": 2019,
     "epa_per_play": -0.011,
-    "qb_created_epa": -0.027,
+    "qb_created_epa": -0.026,
     "support_share": 0.509,
     "attempts": 574
   },
@@ -1315,7 +1315,7 @@
     "team": "CLE",
     "season": 2021,
     "epa_per_play": -0.017,
-    "qb_created_epa": -0.12,
+    "qb_created_epa": -0.121,
     "support_share": 0.335,
     "attempts": 462
   },
@@ -1355,7 +1355,7 @@
     "team": "BUF",
     "season": 2019,
     "epa_per_play": 0.008,
-    "qb_created_epa": -0.019,
+    "qb_created_epa": -0.02,
     "support_share": 0.442,
     "attempts": 546
   },
@@ -1375,7 +1375,7 @@
     "team": "BUF",
     "season": 2021,
     "epa_per_play": 0.212,
-    "qb_created_epa": 0.133,
+    "qb_created_epa": 0.132,
     "support_share": 0.217,
     "attempts": 740
   },
@@ -1405,7 +1405,7 @@
     "team": "BUF",
     "season": 2024,
     "epa_per_play": 0.297,
-    "qb_created_epa": 0.191,
+    "qb_created_epa": 0.192,
     "support_share": 0.246,
     "attempts": 586
   },
@@ -1435,7 +1435,7 @@
     "team": "NYJ",
     "season": 2020,
     "epa_per_play": -0.176,
-    "qb_created_epa": -0.167,
+    "qb_created_epa": -0.168,
     "support_share": 0.235,
     "attempts": 398
   },
@@ -1485,7 +1485,7 @@
     "team": "ARI",
     "season": 2019,
     "epa_per_play": -0.01,
-    "qb_created_epa": -0.062,
+    "qb_created_epa": -0.063,
     "support_share": 0.133,
     "attempts": 589
   },
@@ -1525,7 +1525,7 @@
     "team": "ARI",
     "season": 2023,
     "epa_per_play": -0.015,
-    "qb_created_epa": -0.01,
+    "qb_created_epa": -0.011,
     "support_share": 0.82,
     "attempts": 289
   },
@@ -1565,7 +1565,7 @@
     "team": "JAX",
     "season": 2019,
     "epa_per_play": -0.008,
-    "qb_created_epa": -0.031,
+    "qb_created_epa": -0.03,
     "support_share": 0.402,
     "attempts": 507
   },
@@ -1685,7 +1685,7 @@
     "team": "MIA",
     "season": 2021,
     "epa_per_play": 0.064,
-    "qb_created_epa": 0.066,
+    "qb_created_epa": 0.067,
     "support_share": 0.408,
     "attempts": 409
   },
@@ -1695,7 +1695,7 @@
     "team": "MIA",
     "season": 2022,
     "epa_per_play": 0.218,
-    "qb_created_epa": 0.194,
+    "qb_created_epa": 0.195,
     "support_share": 0.092,
     "attempts": 421
   },
@@ -1765,7 +1765,7 @@
     "team": "LAC",
     "season": 2020,
     "epa_per_play": 0.14,
-    "qb_created_epa": 0.127,
+    "qb_created_epa": 0.126,
     "support_share": 0.188,
     "attempts": 626
   },
@@ -1775,7 +1775,7 @@
     "team": "LAC",
     "season": 2021,
     "epa_per_play": 0.171,
-    "qb_created_epa": 0.109,
+    "qb_created_epa": 0.108,
     "support_share": 0.152,
     "attempts": 709
   },
@@ -1845,7 +1845,7 @@
     "team": "PHI",
     "season": 2023,
     "epa_per_play": 0.085,
-    "qb_created_epa": 0.039,
+    "qb_created_epa": 0.04,
     "support_share": 0.058,
     "attempts": 613
   },
@@ -1855,7 +1855,7 @@
     "team": "PHI",
     "season": 2024,
     "epa_per_play": 0.19,
-    "qb_created_epa": 0.117,
+    "qb_created_epa": 0.116,
     "support_share": 0.21,
     "attempts": 503
   },
@@ -1925,7 +1925,7 @@
     "team": "CIN",
     "season": 2025,
     "epa_per_play": 0.085,
-    "qb_created_epa": 0.07,
+    "qb_created_epa": 0.071,
     "support_share": 0.289,
     "attempts": 278
   },
@@ -1975,7 +1975,7 @@
     "team": "CHI",
     "season": 2023,
     "epa_per_play": -0.04,
-    "qb_created_epa": -0.008,
+    "qb_created_epa": -0.009,
     "support_share": 0.899,
     "attempts": 416
   },
@@ -1995,7 +1995,7 @@
     "team": "JAX",
     "season": 2021,
     "epa_per_play": -0.09,
-    "qb_created_epa": -0.128,
+    "qb_created_epa": -0.129,
     "support_share": 0.032,
     "attempts": 636
   },
@@ -2005,7 +2005,7 @@
     "team": "JAX",
     "season": 2022,
     "epa_per_play": 0.118,
-    "qb_created_epa": 0.127,
+    "qb_created_epa": 0.128,
     "support_share": 0.293,
     "attempts": 704
   },
@@ -2135,7 +2135,7 @@
     "team": "SF",
     "season": 2022,
     "epa_per_play": 0.227,
-    "qb_created_epa": 0.185,
+    "qb_created_epa": 0.184,
     "support_share": 0.001,
     "attempts": 249
   },
@@ -2185,7 +2185,7 @@
     "team": "PIT",
     "season": 2023,
     "epa_per_play": -0.119,
-    "qb_created_epa": -0.098,
+    "qb_created_epa": -0.099,
     "support_share": 0.392,
     "attempts": 347
   },
@@ -2205,7 +2205,7 @@
     "team": "ATL",
     "season": 2023,
     "epa_per_play": -0.067,
-    "qb_created_epa": -0.1,
+    "qb_created_epa": -0.101,
     "support_share": 0.084,
     "attempts": 420
   },
@@ -2215,7 +2215,7 @@
     "team": "NYG",
     "season": 2023,
     "epa_per_play": -0.22,
-    "qb_created_epa": -0.206,
+    "qb_created_epa": -0.205,
     "support_share": 0.219,
     "attempts": 215
   },
@@ -2225,7 +2225,7 @@
     "team": "LV",
     "season": 2023,
     "epa_per_play": -0.06,
-    "qb_created_epa": -0.026,
+    "qb_created_epa": -0.025,
     "support_share": 0.752,
     "attempts": 367
   },
@@ -2245,7 +2245,7 @@
     "team": "CAR",
     "season": 2023,
     "epa_per_play": -0.228,
-    "qb_created_epa": -0.161,
+    "qb_created_epa": -0.16,
     "support_share": 0.408,
     "attempts": 589
   },
@@ -2285,7 +2285,7 @@
     "team": "TEN",
     "season": 2024,
     "epa_per_play": -0.164,
-    "qb_created_epa": -0.196,
+    "qb_created_epa": -0.197,
     "support_share": 0.049,
     "attempts": 344
   },
@@ -2365,7 +2365,7 @@
     "team": "DEN",
     "season": 2025,
     "epa_per_play": 0.116,
-    "qb_created_epa": 0.01,
+    "qb_created_epa": 0.009,
     "support_share": 0.868,
     "attempts": 684
   },
@@ -2375,7 +2375,7 @@
     "team": "NE",
     "season": 2024,
     "epa_per_play": 0.006,
-    "qb_created_epa": -0.004,
+    "qb_created_epa": -0.003,
     "support_share": 0.9,
     "attempts": 374
   },
@@ -2415,7 +2415,7 @@
     "team": "ATL",
     "season": 2025,
     "epa_per_play": 0.035,
-    "qb_created_epa": -0.053,
+    "qb_created_epa": -0.052,
     "support_share": 0.456,
     "attempts": 290
   },
@@ -2435,7 +2435,7 @@
     "team": "CHI",
     "season": 2025,
     "epa_per_play": 0.116,
-    "qb_created_epa": -0.0,
+    "qb_created_epa": -0.001,
     "support_share": 0.994,
     "attempts": 686
   },
@@ -2465,7 +2465,7 @@
     "team": "TEN",
     "season": 2025,
     "epa_per_play": -0.167,
-    "qb_created_epa": -0.165,
+    "qb_created_epa": -0.164,
     "support_share": 0.217,
     "attempts": 592
   },
