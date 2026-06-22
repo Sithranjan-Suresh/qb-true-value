@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import qbs, whatif
+from app.routers import methodology, qbs, whatif
 from app.schemas import HealthResponse
 
 app = FastAPI(title="QB True Value API")
@@ -22,3 +22,4 @@ def health() -> HealthResponse:
 
 app.include_router(qbs.router, prefix="/api")
 app.include_router(whatif.router, prefix="/api")
+app.include_router(methodology.router, prefix="/api")
