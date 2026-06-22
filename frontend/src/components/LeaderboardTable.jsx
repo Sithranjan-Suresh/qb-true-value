@@ -1,28 +1,10 @@
+import { withRankDelta } from '../lib/ranks'
+
 const SORT_OPTIONS = [
   { key: 'epa_per_play', label: 'Raw EPA/play' },
   { key: 'qb_created_epa', label: 'QB-created EPA' },
   { key: 'support_share', label: 'Support share' },
 ]
-
-// raw_rank and created_rank are computed once across the full pool of qualifying
-// QB-seasons (not per-season), so the leaderboard's notion of "rank" stays
-// consistent regardless of which column the table is currently sorted by.
-function withRankDelta(data) {
-  const byRawEpa = [...data].sort((a, b) => b.epa_per_play - a.epa_per_play)
-  const rawRankByKey = new Map(byRawEpa.map((row, i) => [`${row.qb_id}_${row.season}`, i + 1]))
-
-  const byCreatedEpa = [...data].sort((a, b) => b.qb_created_epa - a.qb_created_epa)
-  const createdRankByKey = new Map(
-    byCreatedEpa.map((row, i) => [`${row.qb_id}_${row.season}`, i + 1]),
-  )
-
-  return data.map((row) => {
-    const key = `${row.qb_id}_${row.season}`
-    const rawRank = rawRankByKey.get(key)
-    const createdRank = createdRankByKey.get(key)
-    return { ...row, rawRank, createdRank, rankDelta: rawRank - createdRank }
-  })
-}
 
 export default function LeaderboardTable({ data, sortKey, onSortChange, onRowClick }) {
   const withRanks = withRankDelta(data)
