@@ -104,6 +104,9 @@ export default function QBDetail() {
             featureRanges={detail.feature_ranges}
             initialValues={detail.raw_features}
             onResult={handleWhatIfResult}
+            qbName={detail.qb_name}
+            actualEpaPerPlay={detail.epa_per_play}
+            actualQbComponent={detail.qb_component}
           />
         </>
       )}

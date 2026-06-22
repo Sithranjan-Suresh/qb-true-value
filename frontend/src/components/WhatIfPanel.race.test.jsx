@@ -63,6 +63,9 @@ it('discards a stale response that resolves after a newer request', async () => 
         featureRanges={FEATURE_RANGES}
         initialValues={INITIAL_VALUES}
         onResult={onResult}
+        qbName="Test QB"
+        actualEpaPerPlay={0.05}
+        actualQbComponent={0.01}
       />,
     )
   })
