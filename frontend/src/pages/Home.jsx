@@ -10,7 +10,7 @@ import { withRankDelta } from '../lib/ranks'
 const FEATURED_QB = { qbId: '00-0039163', season: 2023 }
 const FETCH_TIMEOUT_MS = 8000
 
-export default function Landing() {
+export default function Home() {
   const [detail, setDetail] = useState(null)
   const [rank, setRank] = useState(null)
   const [status, setStatus] = useState('loading')
