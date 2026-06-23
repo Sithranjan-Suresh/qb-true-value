@@ -19,16 +19,18 @@ A single linear regression is fit once across all 250 qualifying quarterback-sea
 
 ## Known Limitations
 
-- The model's support features (R² ≈ 0.03–0.04) explain only a small share of season-to-season EPA variance. This is actually consistent with the project's thesis: situational context determines less of a QB's output than conventional wisdom assumes. However, it also means the predicted baseline is a rough adjustment, not a precise forecast. Individual QB-season decompositions should be read directionally, not as precise measurements.
+- The model's support features (R² ≈ 0.03–0.04) explain only a small share of season-to-season EPA variance. This is actually consistent with the project's thesis: situational context determines less of a QB's output than conventional wisdom assumes. However, it also means the predicted baseline is a rough adjustment, not a precise forecast. Individual QB-season decompositions should be read directionally, not as precise measurements. Low R² is also expected here for a structural reason: the model operates on season-level averages, where most week-to-week EPA variance is play-level noise that cancels out rather than something four context features could ever explain. The model isn't trying to predict a QB's raw EPA — it's trying to isolate the directional signal contributed by his support, so the residual (the QB component) is the part of his performance that this context genuinely can't account for.
 - Average separation is a team-wide proxy, not a per-target number — Next Gen Stats doesn't publish it at the quarterback level.
 - The model is fit once across all seasons, so it can't capture a team's supporting cast changing faster than the data resolves.
 
 ## How to use this tool
 
+- **Front office context:** Teams evaluating QBs in free agency or trades can strip away the support context from their previous team — raw EPA overstates the value of QBs leaving strong supporting situations, and understates QBs like Stroud leaving weak ones.
 - **Fans:** Use the leaderboard to see which QBs are actually outperforming their situations.
 - **Fantasy players:** Use the What If? sliders to see how a QB might perform if moved to a better supporting cast.
-- **Front office context:** Look at QB-created EPA for players changing teams — raw EPA overstates the value of QBs leaving strong supporting situations.
 
-## One Concrete Finding
+## Concrete Findings
 
 In 2023, C.J. Stroud's raw EPA per play ranked **80th** out of 250 qualifying quarterback-seasons — fairly ordinary for a rookie. But his **QB-created value** ranks **5th** in the entire 2019–2025 dataset. The raw stat line undersold him; the decomposition tells a more accurate story about how much of his rookie production was actually his own doing.
+
+Conversely, P.Rivers' 2020 raw EPA per play ranked **35th**, but his QB-created value falls to **115th** — a strong offensive line (60% pass-block win rate) and a soft slate of opposing defenses did most of the work that season, not him.

@@ -77,8 +77,10 @@ its limitations, and how different audiences should use this tool, lives at
 
 - The model's support features explain only a small share of season-to-season EPA
   variance (cross-validated R² ≈ 0.03–0.04), so the predicted baseline is a rough
-  situational adjustment, not a precise forecast — see the methodology page for why
-  this is actually consistent with the project's thesis.
+  situational adjustment, not a precise forecast. This is expected: the model
+  operates on season-level averages, where most EPA variance is play-level noise
+  that cancels out — it's designed to isolate the directional signal from support
+  context, not to predict raw EPA. See the methodology page for more.
 - Average separation is a team-wide proxy, not a per-target number — Next Gen Stats
   doesn't publish it at the quarterback level.
 - The model is fit once across all seasons, so it can't capture a team's
