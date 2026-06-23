@@ -1,15 +1,16 @@
-import { withRankDelta } from '../lib/ranks'
-
 const SORT_OPTIONS = [
   { key: 'epa_per_play', label: 'Raw EPA/play' },
   { key: 'qb_created_epa', label: 'QB-created EPA' },
   { key: 'support_share', label: 'Support share' },
 ]
 
+// `data` must already carry rawRank/createdRank/rankDelta (from withRankDelta),
+// computed by the caller against the FULL leaderboard before any season/division
+// filtering -- so a QB's rank here always means "rank across all 250 QB-seasons,"
+// never "rank within the currently filtered subset." Recomputing ranks on a
+// filtered subset would silently create a second, inconsistent definition of rank.
 export default function LeaderboardTable({ data, sortKey, onSortChange, onRowClick, leagueBaseline }) {
-  const withRanks = withRankDelta(data)
-
-  const sorted = [...withRanks].sort((a, b) =>
+  const sorted = [...data].sort((a, b) =>
     sortKey === 'abs_rank_delta'
       ? Math.abs(b.rankDelta) - Math.abs(a.rankDelta)
       : b[sortKey] - a[sortKey],
@@ -28,6 +29,13 @@ export default function LeaderboardTable({ data, sortKey, onSortChange, onRowCli
         </span>
       </div>
 
+      {sorted.length === 0 && (
+        <p className="text-(--color-text-secondary) italic py-8 text-center border border-(--color-border) rounded-(--radius-xl) bg-(--color-surface)">
+          No QB-seasons match these filters.
+        </p>
+      )}
+
+      {sorted.length > 0 && (
       <table className="w-full text-left border-collapse rounded-(--radius-xl) overflow-hidden border border-(--color-border)">
         <thead>
           <tr className="bg-(--color-elevated) text-(--color-text-muted) text-xs font-semibold tracking-[0.1em] uppercase">
@@ -144,6 +152,7 @@ export default function LeaderboardTable({ data, sortKey, onSortChange, onRowCli
           })}
         </tbody>
       </table>
+      )}
     </div>
   )
 }
