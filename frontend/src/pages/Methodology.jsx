@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { getMethodology } from '../lib/api'
 import PredictiveValidityCharts from '../components/PredictiveValidityCharts'
+import HowThisDiffers from '../components/HowThisDiffers'
 
+const KNOWN_LIMITATIONS_HEADING = '## Known Limitations'
 const HOW_TO_USE_HEADING = '## How to use this tool'
 
 // C.J. Stroud, 2023 -- league_baseline + support_component + qb_component = epa_per_play
@@ -81,17 +83,27 @@ export default function Methodology() {
       )}
 
       {status === 'loaded' && content && (() => {
-        // Splits the fetched markdown so PredictiveValidityCharts (a real React
-        // component, not prose) can render between "Known Limitations" and "How to
-        // use this tool" -- exactly where the spec asks for it -- without the
-        // backend's docs/methodology.md needing to know anything about charts.
-        const splitIndex = content.indexOf(HOW_TO_USE_HEADING)
-        const beforeHowToUse = splitIndex === -1 ? content : content.slice(0, splitIndex)
-        const fromHowToUse = splitIndex === -1 ? '' : content.slice(splitIndex)
+        // Splits the fetched markdown into three chunks so two real React
+        // components -- not prose -- can render at exact positions the backend's
+        // docs/methodology.md doesn't need to know anything about: HowThisDiffers
+        // above "Known Limitations", PredictiveValidityCharts between "Known
+        // Limitations" and "How to use this tool".
+        const limitationsIndex = content.indexOf(KNOWN_LIMITATIONS_HEADING)
+        const howToUseIndex = content.indexOf(HOW_TO_USE_HEADING)
+
+        const beforeLimitations = limitationsIndex === -1 ? content : content.slice(0, limitationsIndex)
+        const limitationsToHowToUse =
+          limitationsIndex === -1
+            ? ''
+            : content.slice(limitationsIndex, howToUseIndex === -1 ? undefined : howToUseIndex)
+        const fromHowToUse = howToUseIndex === -1 ? '' : content.slice(howToUseIndex)
+
         return (
           <>
             <DecompositionDiagram />
-            <ReactMarkdown>{beforeHowToUse}</ReactMarkdown>
+            <ReactMarkdown>{beforeLimitations}</ReactMarkdown>
+            <HowThisDiffers />
+            {limitationsToHowToUse && <ReactMarkdown>{limitationsToHowToUse}</ReactMarkdown>}
             <PredictiveValidityCharts />
             {fromHowToUse && <ReactMarkdown>{fromHowToUse}</ReactMarkdown>}
           </>
