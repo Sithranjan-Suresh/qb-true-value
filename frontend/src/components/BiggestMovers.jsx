@@ -44,27 +44,33 @@ export default function BiggestMovers() {
   const navigate = useNavigate()
 
   return (
-    <section className="mb-8">
-      <h2 className="text-lg font-medium text-white mb-3">Biggest Rank Shifts</h2>
+    <section>
+      <h2 className="font-(family-name:--font-display) text-xl font-bold uppercase text-(--color-text-primary) mb-3">
+        Biggest Rank Shifts
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {MOVERS.map((mover) => (
           <button
             key={`${mover.qbId}_${mover.season}`}
             onClick={() => navigate(`/qb/${mover.qbId}/${mover.season}`)}
-            className={`text-left rounded-lg border border-(--color-border) bg-(--color-surface) p-4 border-l-4 ${
-              mover.type === 'underrated' ? 'border-l-green-500' : 'border-l-red-500'
+            className={`text-left rounded-(--radius-lg) border border-(--color-border) bg-(--color-surface) p-6 border-l-4 hover:bg-(--color-elevated) ${
+              mover.type === 'underrated' ? 'border-l-(--color-green)' : 'border-l-(--color-red)'
             }`}
           >
-            <p className="text-xs uppercase tracking-wide text-gray-400 mb-1">
+            <p
+              className={`font-(family-name:--font-body) text-xs font-semibold tracking-[0.12em] uppercase mb-1 ${
+                mover.type === 'underrated' ? 'text-(--color-green)' : 'text-(--color-red)'
+              }`}
+            >
               {mover.type === 'underrated' ? 'Underrated by raw EPA' : 'Overrated by raw EPA'}
             </p>
-            <p className="text-white font-medium mb-1">
+            <p className="font-(family-name:--font-display) text-xl font-bold text-(--color-text-primary) my-1">
               {mover.qbName} &middot; {mover.team} &middot; {mover.season}
             </p>
-            <p className="text-sm text-gray-300 mb-2">
-              #{mover.rawRank} <span className="text-gray-500">&rarr;</span> #{mover.createdRank}
+            <p className="text-sm text-(--color-text-secondary) mb-2">
+              #{mover.rawRank} <span className="text-(--color-text-muted)">&rarr;</span> #{mover.createdRank}
             </p>
-            <p className="text-sm text-gray-400">{mover.blurb}</p>
+            <p className="text-sm leading-relaxed text-(--color-text-secondary)">{mover.blurb}</p>
           </button>
         ))}
       </div>

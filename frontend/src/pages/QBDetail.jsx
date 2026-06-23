@@ -77,32 +77,38 @@ export default function QBDetail() {
   }
 
   return (
-    <main className="px-6 py-10 max-w-3xl mx-auto">
+    <main className="px-6 py-10 max-w-[800px] mx-auto">
       {status === 'loading' && (
-        <div className="h-96 rounded-lg border border-(--color-border) bg-(--color-surface) animate-pulse" />
+        <div className="h-96 rounded-(--radius-xl) border border-(--color-border) bg-(--color-surface) animate-pulse" />
       )}
 
       {status === 'error' && (
-        <p className="text-gray-400 italic">
+        <p className="text-(--color-text-secondary) italic">
           Couldn't load this quarterback's page right now. Please try refreshing.
         </p>
       )}
 
       {status === 'loaded' && detail && displayed && (
-        <>
-          <h1 className="text-2xl font-semibold text-white mb-1">{detail.qb_name}</h1>
-          <p className="text-gray-400 mb-6">
-            {detail.team} &middot; {detail.season}
-          </p>
+        <div className="flex flex-col gap-8">
+          <div>
+            <h1 className="font-(family-name:--font-display) text-4xl font-bold uppercase leading-none text-(--color-text-primary)">
+              {detail.qb_name}
+            </h1>
+            <p className="font-(family-name:--font-body) text-base font-medium text-(--color-qb) mt-1">
+              {detail.team} &middot; {detail.season}
+            </p>
+          </div>
 
-          <DecompositionChart
-            leagueBaseline={displayed.leagueBaseline}
-            supportComponent={displayed.supportComponent}
-            qbComponent={displayed.qbComponent}
-            total={displayed.total}
-            qbName={detail.qb_name}
-            rank={rank}
-          />
+          <div className="card card-glow">
+            <DecompositionChart
+              leagueBaseline={displayed.leagueBaseline}
+              supportComponent={displayed.supportComponent}
+              qbComponent={displayed.qbComponent}
+              total={displayed.total}
+              qbName={detail.qb_name}
+              rank={rank}
+            />
+          </div>
 
           <WhatIfPanel
             key={`${detail.qb_id}_${detail.season}`}
@@ -117,7 +123,7 @@ export default function QBDetail() {
           />
 
           <YearOverYearChart qbId={detail.qb_id} seasons={ownSeasons} />
-        </>
+        </div>
       )}
     </main>
   )

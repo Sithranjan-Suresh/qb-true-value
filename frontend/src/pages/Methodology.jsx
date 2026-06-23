@@ -7,9 +7,9 @@ import { getMethodology } from '../lib/api'
 const DECOMPOSITION_EXAMPLE = {
   total: 0.113,
   segments: [
-    { name: 'League Baseline', value: 0.043, color: '#9ca3af' },
-    { name: 'Support Contribution', value: -0.13, color: '#3b82f6' },
-    { name: 'QB Contribution', value: 0.2, color: '#f97316' },
+    { name: 'League Baseline', value: 0.043, color: '#374151' },
+    { name: 'Support Contribution', value: -0.13, color: '#4b5563' },
+    { name: 'QB Contribution', value: 0.2, color: '#f5a623' },
   ],
 }
 
@@ -18,33 +18,33 @@ function DecompositionDiagram() {
   const totalAbs = segments.reduce((sum, s) => sum + Math.abs(s.value), 0)
 
   return (
-    <div className="not-prose mb-10 rounded-lg border border-(--color-border) bg-(--color-surface) p-6">
-      <p className="text-sm text-gray-400 mb-4">
+    <div className="not-prose card card-glow mb-10">
+      <p className="text-sm text-(--color-text-secondary) mb-4">
         How a quarterback's real EPA per play splits into three pieces — shown here for
         C.J. Stroud's 2023 season.
       </p>
-      <div className="flex w-full h-10 rounded overflow-hidden">
+      <div className="flex w-full h-10 rounded-(--radius-sm) overflow-hidden">
         {segments.map((s) => (
           <div
             key={s.name}
             style={{ width: `${(Math.abs(s.value) / totalAbs) * 100}%`, backgroundColor: s.color }}
-            className="flex items-center justify-center text-xs font-medium text-black/80"
+            className="flex items-center justify-center text-xs font-medium text-(--color-text-primary) [font-variant-numeric:tabular-nums]"
           >
             {s.value >= 0 ? '+' : ''}
             {s.value.toFixed(3)}
           </div>
         ))}
       </div>
-      <div className="flex w-full mt-2 text-xs text-gray-400">
+      <div className="flex w-full mt-2 text-xs text-(--color-text-secondary)">
         {segments.map((s) => (
           <div key={s.name} style={{ width: `${(Math.abs(s.value) / totalAbs) * 100}%` }} className="text-center">
             {s.name}
           </div>
         ))}
       </div>
-      <p className="text-center text-sm text-gray-300 mt-4">
-        = <span className="font-semibold text-white">{total.toFixed(3)} EPA/play</span> (his actual 2023 EPA per
-        play)
+      <p className="text-center text-sm text-(--color-text-secondary) mt-4">
+        = <span className="font-semibold text-(--color-text-primary)">{total.toFixed(3)} EPA/play</span> (his
+        actual 2023 EPA per play)
       </p>
     </div>
   )
@@ -68,11 +68,11 @@ export default function Methodology() {
   return (
     <main className="px-6 py-10 max-w-3xl mx-auto prose prose-invert">
       {status === 'loading' && (
-        <div className="h-96 rounded-lg border border-(--color-border) bg-(--color-surface) animate-pulse" />
+        <div className="h-96 rounded-(--radius-xl) border border-(--color-border) bg-(--color-surface) animate-pulse" />
       )}
 
       {status === 'error' && (
-        <p className="text-gray-400 italic">
+        <p className="text-(--color-text-secondary) italic">
           Couldn't load the methodology page right now. Please try refreshing.
         </p>
       )}

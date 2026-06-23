@@ -59,9 +59,9 @@ function ScatterDot({ cx, cy, payload }) {
   const isAnnotated = ANNOTATIONS.has(key)
   return (
     <g>
-      <circle cx={cx} cy={cy} r={isAnnotated ? 5 : 3.5} fill={deltaColor(payload.rankDelta)} stroke="#0b0d12" strokeWidth={1} />
+      <circle cx={cx} cy={cy} r={isAnnotated ? 5 : 3.5} fill={deltaColor(payload.rankDelta)} stroke="#0a0a0f" strokeWidth={1} />
       {isAnnotated && (
-        <text x={cx + 8} y={cy - 8} fontSize={11} fill="#e5e7eb">
+        <text x={cx + 8} y={cy - 8} fontSize={11} fontFamily="Inter, sans-serif" fill="#f0f0f5">
           {payload.qb_name} '{String(payload.season).slice(2)}
         </text>
       )}
@@ -73,13 +73,16 @@ function CustomTooltip({ active, payload }) {
   if (!active || !payload?.length) return null
   const p = payload[0].payload
   return (
-    <div className="rounded border border-(--color-border) bg-(--color-surface) p-3 text-sm">
-      <p className="text-white font-medium">
+    <div
+      className="rounded-(--radius-md) border border-(--color-border) bg-(--color-elevated) p-4 text-sm"
+      style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.4)' }}
+    >
+      <p className="font-(family-name:--font-display) text-base font-semibold text-(--color-text-primary)">
         {p.qb_name} &middot; {p.team} &middot; {p.season}
       </p>
-      <p className="text-gray-300">Raw EPA/play: {p.epa_per_play.toFixed(3)}</p>
-      <p className="text-gray-300">QB-created EPA: {p.qb_created_epa.toFixed(3)}</p>
-      <p className="text-gray-300">
+      <p className="text-(--color-text-secondary)">Raw EPA/play: {p.epa_per_play.toFixed(3)}</p>
+      <p className="text-(--color-text-secondary)">QB-created EPA: {p.qb_created_epa.toFixed(3)}</p>
+      <p className="text-(--color-text-secondary)">
         Δ Rank: {p.rankDelta > 0 ? `+${p.rankDelta}` : p.rankDelta}
       </p>
     </div>
@@ -128,13 +131,15 @@ export default function Explore() {
   }, [filtered])
 
   return (
-    <main className="px-6 py-10 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-white">Explore</h1>
+    <main className="px-6 py-10 max-w-[1200px] mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="font-(family-name:--font-display) text-3xl font-bold uppercase tracking-tight text-(--color-text-primary)">
+          Explore
+        </h1>
         <select
           value={seasonFilter}
           onChange={(e) => setSeasonFilter(e.target.value === 'all' ? 'all' : Number(e.target.value))}
-          className="bg-(--color-surface) border border-(--color-border) text-gray-200 rounded px-3 py-1"
+          className="bg-(--color-elevated) border border-(--color-border) text-(--color-text-primary) text-sm rounded-(--radius-sm) px-3 py-1.5"
         >
           <option value="all">All seasons</option>
           {SEASONS.map((s) => (
@@ -146,49 +151,57 @@ export default function Explore() {
       </div>
 
       {status === 'loading' && (
-        <div className="h-[500px] rounded-lg border border-(--color-border) bg-(--color-surface) animate-pulse" />
+        <div className="h-[500px] rounded-(--radius-xl) border border-(--color-border) bg-(--color-surface) animate-pulse" />
       )}
 
       {status === 'error' && (
-        <p className="text-gray-400 italic">
+        <p className="text-(--color-text-secondary) italic">
           Couldn't load the explore page right now. Please try refreshing the page.
         </p>
       )}
 
       {status === 'loaded' && (
-        <div className="relative">
-          <span className="absolute left-12 top-2 text-gray-500 text-xs opacity-60 pointer-events-none">
+        <div className="relative card">
+          <span className="absolute left-16 top-8 text-(--color-text-muted) text-xs opacity-60 pointer-events-none">
             Underrated
           </span>
-          <span className="absolute right-4 top-2 text-gray-500 text-xs opacity-60 pointer-events-none">
+          <span className="absolute right-8 top-8 text-(--color-text-muted) text-xs opacity-60 pointer-events-none">
             Elite
           </span>
-          <span className="absolute left-12 bottom-8 text-gray-500 text-xs opacity-60 pointer-events-none">
+          <span className="absolute left-16 bottom-16 text-(--color-text-muted) text-xs opacity-60 pointer-events-none">
             Struggling
           </span>
-          <span className="absolute right-4 bottom-8 text-gray-500 text-xs opacity-60 pointer-events-none">
+          <span className="absolute right-8 bottom-16 text-(--color-text-muted) text-xs opacity-60 pointer-events-none">
             System Dependent
           </span>
 
           <ResponsiveContainer width="100%" height={500}>
             <ScatterChart margin={{ top: 24, right: 24, left: 16, bottom: 16 }}>
-              <CartesianGrid stroke="#262a35" />
+              <CartesianGrid stroke="#2a2a3a" />
               <XAxis
                 type="number"
                 dataKey="epa_per_play"
                 name="Raw EPA/play"
-                stroke="#9ca3af"
-                label={{ value: 'Raw EPA/play', position: 'bottom', fill: '#9ca3af' }}
+                stroke="#4a4a60"
+                tick={{ fill: '#8888a0', fontFamily: 'Inter, sans-serif', fontSize: 11 }}
+                label={{ value: 'Raw EPA/play', position: 'bottom', fill: '#8888a0', fontFamily: 'Inter, sans-serif' }}
               />
               <YAxis
                 type="number"
                 dataKey="qb_created_epa"
                 name="QB-created EPA"
-                stroke="#9ca3af"
-                label={{ value: 'QB-created EPA', angle: -90, position: 'left', fill: '#9ca3af' }}
+                stroke="#4a4a60"
+                tick={{ fill: '#8888a0', fontFamily: 'Inter, sans-serif', fontSize: 11 }}
+                label={{
+                  value: 'QB-created EPA',
+                  angle: -90,
+                  position: 'left',
+                  fill: '#8888a0',
+                  fontFamily: 'Inter, sans-serif',
+                }}
               />
-              <ReferenceLine x={meanRaw} stroke="#64748b" strokeDasharray="4 4" />
-              <ReferenceLine y={meanCreated} stroke="#64748b" strokeDasharray="4 4" />
+              <ReferenceLine x={meanRaw} stroke="#4b5563" strokeDasharray="4 4" />
+              <ReferenceLine y={meanCreated} stroke="#4b5563" strokeDasharray="4 4" />
               <Tooltip content={<CustomTooltip />} />
               <Scatter data={filtered} shape={<ScatterDot />} isAnimationActive={false} />
             </ScatterChart>

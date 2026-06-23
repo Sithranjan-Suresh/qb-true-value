@@ -17,28 +17,28 @@ export default function LeaderboardTable({ data, sortKey, onSortChange, onRowCli
 
   return (
     <div>
-      <div className="flex items-center gap-6 mb-2 text-sm text-gray-400">
-        <span className="flex items-center gap-2">
-          <span className="inline-block w-3 h-3 rounded bg-(--color-qb)" />
+      <div className="flex items-center justify-end gap-4 mb-3 text-sm text-(--color-text-secondary)">
+        <span className="flex items-center">
+          <span className="inline-block w-2.5 h-2.5 rounded-[2px] bg-(--color-qb) mr-1.5" />
           QB-created share
         </span>
-        <span className="flex items-center gap-2">
-          <span className="inline-block w-3 h-3 rounded bg-(--color-support)" />
+        <span className="flex items-center">
+          <span className="inline-block w-2.5 h-2.5 rounded-[2px] bg-(--color-support) mr-1.5" />
           Support share
         </span>
       </div>
 
-      <table className="w-full text-left border-collapse">
+      <table className="w-full text-left border-collapse rounded-(--radius-xl) overflow-hidden border border-(--color-border)">
         <thead>
-          <tr className="border-b border-(--color-border) text-gray-400 text-sm">
-            <th className="py-2 px-3">#</th>
-            <th className="py-2 px-3">
+          <tr className="bg-(--color-elevated) text-(--color-text-muted) text-xs font-semibold tracking-[0.1em] uppercase">
+            <th className="py-3 px-4 text-right w-10">#</th>
+            <th className="py-3 px-4">
               <button
                 onClick={() => onSortChange('abs_rank_delta')}
                 className={
                   sortKey === 'abs_rank_delta'
-                    ? 'text-(--color-qb) font-medium'
-                    : 'text-gray-400 hover:text-white'
+                    ? 'text-(--color-qb) font-semibold'
+                    : 'text-(--color-text-muted) hover:text-(--color-text-primary)'
                 }
                 title="Biggest movers between raw EPA rank and QB-created EPA rank"
               >
@@ -46,17 +46,17 @@ export default function LeaderboardTable({ data, sortKey, onSortChange, onRowCli
                 {sortKey === 'abs_rank_delta' ? ' ▼' : ''}
               </button>
             </th>
-            <th className="py-2 px-3">QB</th>
-            <th className="py-2 px-3">Team</th>
-            <th className="py-2 px-3">Season</th>
+            <th className="py-3 px-4">QB</th>
+            <th className="py-3 px-4">Team</th>
+            <th className="py-3 px-4">Season</th>
             {SORT_OPTIONS.map((opt) => (
-              <th key={opt.key} className="py-2 px-3">
+              <th key={opt.key} className="py-3 px-4 text-right">
                 <button
                   onClick={() => onSortChange(opt.key)}
                   className={
                     sortKey === opt.key
-                      ? 'text-(--color-qb) font-medium'
-                      : 'text-gray-400 hover:text-white'
+                      ? 'text-(--color-qb) font-semibold'
+                      : 'text-(--color-text-muted) hover:text-(--color-text-primary)'
                   }
                 >
                   {opt.label}
@@ -64,7 +64,7 @@ export default function LeaderboardTable({ data, sortKey, onSortChange, onRowCli
                 </button>
               </th>
             ))}
-            <th className="py-2 px-3">How It Was Made</th>
+            <th className="py-3 px-4">How It Was Made</th>
           </tr>
         </thead>
         <tbody>
@@ -86,39 +86,47 @@ export default function LeaderboardTable({ data, sortKey, onSortChange, onRowCli
             const tooltipText = `This QB generated ${qbPct.toFixed(0)}% of his EPA independently. ${supportPct.toFixed(0)}% came from his supporting context (receivers, O-line, opponent strength)${supportIsNegative ? ' -- and his support actually worked against him this season' : ''}.`
 
             let rankDeltaText = '—'
-            let rankDeltaClass = 'text-gray-500'
+            let rankDeltaClass = 'text-(--color-text-muted)'
             if (row.rankDelta > 0) {
               rankDeltaText = `+${row.rankDelta}`
-              rankDeltaClass = 'text-green-500'
+              rankDeltaClass = 'text-(--color-green) font-semibold'
             } else if (row.rankDelta < 0) {
               rankDeltaText = `${row.rankDelta}`
-              rankDeltaClass = 'text-red-500'
+              rankDeltaClass = 'text-(--color-red) font-semibold'
             }
 
             return (
               <tr
                 key={`${row.qb_id}_${row.season}`}
                 onClick={() => onRowClick(row.qb_id, row.season)}
-                className="border-b border-(--color-border) cursor-pointer hover:bg-(--color-surface)"
+                className="border-b border-(--color-border) bg-(--color-surface) cursor-pointer hover:bg-(--color-elevated)"
               >
-                <td className="py-2 px-3 text-gray-400">{index + 1}</td>
+                <td className="py-4 px-4 text-right text-sm text-(--color-text-muted)">{index + 1}</td>
                 <td
-                  className={`py-2 px-3 font-medium ${rankDeltaClass}`}
+                  className={`py-4 px-4 text-sm [font-variant-numeric:tabular-nums] ${rankDeltaClass}`}
                   title={`Raw EPA rank #${row.rawRank} -> QB-created rank #${row.createdRank}`}
                 >
                   {rankDeltaText}
                 </td>
-                <td className="py-2 px-3 text-white">{row.qb_name}</td>
-                <td className="py-2 px-3 text-gray-300">{row.team}</td>
-                <td className="py-2 px-3 text-gray-300">{row.season}</td>
-                <td className="py-2 px-3 text-gray-300">{row.epa_per_play.toFixed(3)}</td>
-                <td className="py-2 px-3 text-gray-300">{row.qb_created_epa.toFixed(3)}</td>
-                <td className="py-2 px-3 text-gray-300">{(row.support_share * 100).toFixed(0)}%</td>
-                <td className="py-2 px-3" title={tooltipText}>
-                  <div className="flex h-3 w-32 rounded overflow-hidden bg-(--color-bg)">
+                <td className="py-4 px-4 font-(family-name:--font-display) text-lg font-semibold text-(--color-text-primary)">
+                  {row.qb_name}
+                </td>
+                <td className="py-4 px-4 text-sm text-(--color-text-secondary)">{row.team}</td>
+                <td className="py-4 px-4 text-sm text-(--color-text-secondary)">{row.season}</td>
+                <td className="py-4 px-4 text-right [font-variant-numeric:tabular-nums] tracking-[0.01em] text-(--color-text-secondary)">
+                  {row.epa_per_play.toFixed(3)}
+                </td>
+                <td className="py-4 px-4 text-right [font-variant-numeric:tabular-nums] tracking-[0.01em] font-semibold text-(--color-qb)">
+                  {row.qb_created_epa.toFixed(3)}
+                </td>
+                <td className="py-4 px-4 text-right [font-variant-numeric:tabular-nums] tracking-[0.01em] text-(--color-text-secondary)">
+                  {(row.support_share * 100).toFixed(0)}%
+                </td>
+                <td className="py-4 px-4" title={tooltipText}>
+                  <div className="flex h-2 w-32 rounded-[4px] overflow-hidden bg-(--color-elevated)">
                     <div
                       style={{ width: `${qbPct}%` }}
-                      className={qbIsNegative ? 'bg-red-500' : 'bg-(--color-qb)'}
+                      className={qbIsNegative ? 'bg-(--color-red)' : 'bg-(--color-qb)'}
                     />
                     <div
                       style={{

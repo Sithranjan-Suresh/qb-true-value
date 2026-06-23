@@ -44,20 +44,21 @@ export default function Landing() {
   }, [])
 
   return (
-    <main className="px-6 py-12 max-w-3xl mx-auto text-center">
-      <h1 className="text-4xl font-semibold text-white mb-4">
+    <main className="px-6 py-16 max-w-[640px] mx-auto text-center">
+      <div className="mx-auto mb-4 w-10 h-0.5 bg-(--color-qb)" />
+      <h1 className="font-(family-name:--font-display) text-3xl font-bold uppercase leading-[1.1] text-(--color-text-primary)">
         Raw QB stats conflate three things: the quarterback, his supporting cast, and
         the defenses he faced. QB True Value separates them.
       </h1>
 
       <div className="mt-10">
         {status === 'loading' && (
-          <div className="h-80 rounded-lg border border-(--color-border) bg-(--color-surface) animate-pulse" />
+          <div className="h-80 rounded-(--radius-xl) border border-(--color-border) bg-(--color-surface) animate-pulse" />
         )}
 
         {status === 'loaded' && detail && (
-          <div className="rounded-lg border border-(--color-border) bg-(--color-surface) p-6">
-            <p className="text-gray-300 mb-2">
+          <div className="card card-glow text-left">
+            <p className="text-(--color-text-secondary) mb-2">
               {detail.qb_name} &middot; {detail.team} &middot; {detail.season}
             </p>
             <DecompositionChart
@@ -73,7 +74,7 @@ export default function Landing() {
         )}
 
         {status === 'fallback' && (
-          <p className="text-gray-400 italic">
+          <p className="text-(--color-text-secondary) italic">
             Every quarterback's stat line is really three numbers stacked together:
             what the league produces on average, what his receivers and offensive
             line add or subtract, and what's left over for the quarterback himself.
@@ -85,7 +86,7 @@ export default function Landing() {
 
       <Link
         to="/leaderboard"
-        className="inline-block mt-10 px-6 py-3 rounded-md bg-(--color-qb) text-black font-medium hover:opacity-90"
+        className="inline-block mt-10 px-8 py-3.5 rounded-(--radius-md) bg-(--color-qb) text-(--color-bg) font-(family-name:--font-display) font-bold text-lg uppercase tracking-wider hover:bg-(--color-qb-hover) hover:-translate-y-px"
       >
         See the full leaderboard
       </Link>

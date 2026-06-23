@@ -2,15 +2,88 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-qb: #f59e0b;
-  --color-support: #64748b;
-  --color-bg: #0b0d12;
-  --color-surface: #14161d;
-  --color-border: #262a35;
+  /* Color palette */
+  --color-bg: #0a0a0f;
+  --color-surface: #13131a;
+  --color-elevated: #1c1c27;
+  --color-border: #2a2a3a;
+  --color-text-primary: #f0f0f5;
+  --color-text-secondary: #8888a0;
+  --color-text-muted: #4a4a60;
+  --color-qb: #f5a623;
+  --color-qb-dim: rgba(245, 166, 35, 0.12);
+  --color-qb-hover: #e8971a;
+  --color-green: #22c55e;
+  --color-red: #ef4444;
+  --color-blue: #60a5fa;
+  --color-support: #4b5563;
+  --color-baseline: #374151;
+
+  /* Typography */
+  --font-display: "Barlow Condensed", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-lg: 18px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+  --text-3xl: 48px;
+  --text-4xl: 64px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
 }
 
 body {
   background: var(--color-bg);
-  color: #e5e7eb;
-  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+a,
+button,
+input[type="range"],
+tr,
+.card {
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+}
+
+.card-glow {
+  box-shadow: 0 0 0 1px var(--color-border), 0 -1px 0 0 rgba(245, 166, 35, 0.3);
+}
+
+.prose {
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  color: var(--color-text-primary);
+}
+
+.prose strong {
+  color: var(--color-text-primary);
+}
+
+.prose a {
+  color: var(--color-qb);
 }

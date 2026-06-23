@@ -92,20 +92,22 @@ export default function WhatIfPanel({
   }
 
   const delta = latestResult ? latestResult.predicted_epa - actualEpaPerPlay : 0
-  const deltaClass = delta > 0 ? 'text-green-500' : delta < 0 ? 'text-red-500' : 'text-gray-400'
+  const deltaClass = delta > 0 ? 'text-(--color-green)' : delta < 0 ? 'text-(--color-red)' : 'text-(--color-text-muted)'
 
   return (
-    <div className="mt-8 rounded-lg border border-(--color-border) bg-(--color-surface) p-6">
+    <div className="card">
       <div className="flex items-center justify-between mb-1">
-        <h2 className="text-lg font-medium text-white">What if?</h2>
+        <h2 className="font-(family-name:--font-display) text-xl font-bold uppercase text-(--color-text-primary)">
+          What if?
+        </h2>
         <button
           onClick={handleReset}
-          className="text-sm px-3 py-1 rounded border border-(--color-border) text-gray-300 hover:text-white"
+          className="text-sm px-3.5 py-1.5 rounded-(--radius-sm) border border-(--color-border) text-(--color-text-secondary) hover:border-(--color-text-secondary) hover:text-(--color-text-primary)"
         >
           Reset to actual
         </button>
       </div>
-      <p className="text-sm text-gray-400 mb-4">
+      <p className="text-sm text-(--color-text-secondary) mb-4">
         Adjust the sliders to see how different support conditions would shift this
         QB's predicted baseline — and how much of his real production that leaves
         attributable to him.
@@ -116,9 +118,11 @@ export default function WhatIfPanel({
         const step = (max - min) / 200
         return (
           <div key={key} className="mb-4">
-            <div className="flex justify-between text-sm text-gray-400 mb-1">
+            <div className="flex justify-between text-sm text-(--color-text-secondary) mb-1">
               <span>{label}</span>
-              <span>{values[key].toFixed(3)}</span>
+              <span className="font-medium text-(--color-text-primary) [font-variant-numeric:tabular-nums]">
+                {values[key].toFixed(3)}
+              </span>
             </div>
             <input
               type="range"
@@ -128,6 +132,7 @@ export default function WhatIfPanel({
               value={values[key]}
               onChange={(e) => handleSliderChange(key, Number(e.target.value))}
               className="w-full"
+              style={{ accentColor: '#f5a623' }}
             />
           </div>
         )
@@ -135,10 +140,10 @@ export default function WhatIfPanel({
 
       {latestResult && (
         <div className="mt-4 pt-4 border-t border-(--color-border)">
-          <p className={`text-sm font-medium ${deltaClass}`}>
+          <p className={`font-(family-name:--font-display) text-xl font-bold ${deltaClass}`}>
             {formatSigned(delta)} vs. actual conditions
           </p>
-          <p className="text-sm text-gray-300 mt-2">
+          <p className="text-sm text-(--color-text-secondary) mt-2">
             {buildInterpretation(qbName, latestResult, actualEpaPerPlay, actualQbComponent)}
           </p>
         </div>

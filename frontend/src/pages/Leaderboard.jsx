@@ -48,17 +48,24 @@ export default function Leaderboard() {
   }, [])
 
   return (
-    <main className="px-6 py-10 max-w-5xl mx-auto">
-      <h1 className="text-2xl font-semibold text-white mb-6">Leaderboard</h1>
+    <main className="px-6 py-10 max-w-[1200px] mx-auto">
+      <p className="font-(family-name:--font-body) text-xs tracking-[0.15em] uppercase text-(--color-qb) mb-2">
+        2019 – 2025 &middot; 250+ QB-Seasons
+      </p>
+      <h1 className="font-(family-name:--font-display) text-3xl font-bold uppercase tracking-tight text-(--color-text-primary) mb-8">
+        Leaderboard
+      </h1>
 
-      <BiggestMovers />
+      <div className="mb-8">
+        <BiggestMovers />
+      </div>
 
       {status === 'loading' && (
-        <div className="h-96 rounded-lg border border-(--color-border) bg-(--color-surface) animate-pulse" />
+        <div className="h-96 rounded-(--radius-xl) border border-(--color-border) bg-(--color-surface) animate-pulse" />
       )}
 
       {status === 'error' && (
-        <p className="text-gray-400 italic">
+        <p className="text-(--color-text-secondary) italic">
           Couldn't load the leaderboard right now. Please try refreshing the page.
         </p>
       )}

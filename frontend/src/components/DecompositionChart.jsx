@@ -1,8 +1,8 @@
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
-const QB_COLOR = '#f59e0b'
-const SUPPORT_COLOR = '#64748b'
-const TOTAL_COLOR = '#e5e7eb'
+const QB_COLOR = '#f5a623'
+const SUPPORT_COLOR = '#4b5563'
+const BASELINE_COLOR = '#374151'
 
 function formatSigned(value) {
   const rounded = value.toFixed(3)
@@ -43,7 +43,7 @@ export default function DecompositionChart({
       name: 'League baseline',
       base: Math.min(0, leagueBaseline),
       delta: Math.abs(leagueBaseline),
-      fill: TOTAL_COLOR,
+      fill: BASELINE_COLOR,
       label: formatSigned(leagueBaseline),
     },
     {
@@ -64,7 +64,7 @@ export default function DecompositionChart({
       name: 'Total EPA/play',
       base: Math.min(0, total),
       delta: Math.abs(total),
-      fill: TOTAL_COLOR,
+      fill: BASELINE_COLOR,
       label: formatSigned(total),
     },
   ]
@@ -80,12 +80,24 @@ export default function DecompositionChart({
     <div className="relative">
       <ResponsiveContainer width="100%" height={320}>
         <BarChart data={data} margin={{ top: 24, right: 16, left: 16, bottom: 8 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#262a35" vertical={false} />
-          <XAxis dataKey="name" stroke="#9ca3af" />
-          <YAxis stroke="#9ca3af" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#2a2a3a" vertical={false} />
+          <XAxis
+            dataKey="name"
+            stroke="#4a4a60"
+            tick={{ fill: '#8888a0', fontFamily: 'Inter, sans-serif', fontSize: 11 }}
+          />
+          <YAxis stroke="#4a4a60" tick={{ fill: '#8888a0', fontFamily: 'Inter, sans-serif', fontSize: 11 }} />
           <Tooltip
-            contentStyle={{ background: '#14161d', border: '1px solid #262a35' }}
-            labelStyle={{ color: '#e5e7eb' }}
+            contentStyle={{
+              background: '#1c1c27',
+              border: '1px solid #2a2a3a',
+              borderRadius: 8,
+              fontFamily: 'Inter, sans-serif',
+              fontSize: 13,
+              boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+            }}
+            labelStyle={{ color: '#f0f0f5' }}
+            itemStyle={{ color: '#f0f0f5' }}
             formatter={(value, key, { payload }) => [payload.label, 'EPA/play']}
           />
           <Bar dataKey="base" stackId="waterfall" fill="transparent" isAnimationActive={false} />
@@ -105,14 +117,18 @@ export default function DecompositionChart({
 
       {calloutText && (
         <div className="absolute text-center" style={{ left: '37.5%', top: '8px', transform: 'translateX(-50%)' }}>
-          <p className="text-xs text-(--color-support) bg-(--color-bg) border border-(--color-border) rounded px-2 py-1 whitespace-nowrap">
+          <p className="text-xs font-(family-name:--font-body) text-(--color-text-primary) bg-(--color-elevated) border border-(--color-border) rounded-(--radius-sm) px-2 py-1 whitespace-nowrap">
             {calloutText}
           </p>
-          <p className="text-(--color-support) leading-none">↓</p>
+          <p className="text-(--color-text-secondary) leading-none">↓</p>
         </div>
       )}
 
-      {sentence && <p className="text-sm text-gray-300 mt-2">{sentence}</p>}
+      {sentence && (
+        <p className="border-l-[3px] border-(--color-qb) bg-(--color-qb-dim) rounded-r-(--radius-md) px-4 py-3 text-sm text-(--color-text-primary) mt-4">
+          {sentence}
+        </p>
+      )}
     </div>
   )
 }
