@@ -1,36 +1,35 @@
 # QB True Value
 
-Raw quarterback stats conflate three different things: what the quarterback himself
-created, what his offensive line and receivers handed him, and how tough the
-defenses he faced were. QB True Value is a season-level decomposition model that
-separates those three apart for every qualifying NFL quarterback-season from
-2019–2025 — so "good stats" and "good quarterback" stop being the same question.
+A season-level decomposition model that splits every qualifying NFL quarterback's
+EPA per play into three pieces — a league baseline, what his support gave him, and
+what he created himself — so "good stats" and "good quarterback" stop being the
+same question.
 
-As one concrete example: C.J. Stroud's 2023 raw EPA per play ranks **80th** out of
-250 qualifying QB-seasons in this dataset — a fairly ordinary number for a rookie.
-His **QB-created value**, the part of that production attributable to him rather
-than his receivers, his line, or his opponents, ranks **5th**. The raw stat line
-undersold him; the decomposition tells a different story.
+> C.J. Stroud 2023: ranked 80th by raw EPA/play. Ranked 5th by QB-created EPA.
+> Raw stats buried one of the best rookie seasons in recent NFL history.
 
-## Screenshots
+## What it does
 
-![Leaderboard](screenshots/leaderboard.png)
-![QB decomposition waterfall](screenshots/qb-detail.png)
-![What-if panel](screenshots/whatif.png)
+- Decomposes every qualifying QB-season (2019–2025, 200+ attempts) into league
+  baseline + support contribution + QB contribution, an identity that always adds
+  up exactly to the QB's real EPA per play.
+- Ranks quarterbacks by raw EPA and by QB-created EPA side by side, surfacing the
+  QBs whose situation is hiding or inflating their real value.
+- Lets you simulate a QB in a different supporting cast with interactive What If?
+  sliders, and see in plain English how that changes what's attributable to him.
 
-*(screenshots coming soon)*
+## Why it's different
 
-## How it works
+Public QB evaluation already has PFF grades, NGS Passing Score, and ESPN's QB Pass
+Score (AQE) — but each is a proprietary, single composite score with no published
+formula. QB True Value is fully open-source and reproducible from public data (NFL
+play-by-play, Next Gen Stats, ESPN pass-block win rate): anyone can re-run the
+pipeline and get the same numbers. It also doesn't collapse everything into one
+score — it keeps the three-way split (baseline, support, QB) visible and lets you
+interactively move the support inputs with the What If? simulator, rather than
+asking you to trust a black-box number.
 
-A linear regression is fit once, offline, across every qualifying QB-season (200+
-pass attempts), predicting EPA per play from four public season-level proxies:
-receiver separation, time to throw, pass-block win rate, and opponent defensive
-EPA allowed. The gap between a QB's actual EPA and what that model predicts for his
-situation is treated as his own contribution. Full methodology, data sources, and
-an honest discussion of the model's limitations live at `/methodology` on the live
-app, and in [docs/methodology.md](docs/methodology.md).
-
-## Run locally
+## How to run it
 
 **Backend** (Python 3.11):
 
@@ -57,10 +56,47 @@ By default the frontend expects the backend at `http://localhost:8000` (see
 default — run the frontend on its default port, not a custom one, or update
 `ALLOWED_ORIGIN` to match.
 
-## Live links
+**Live links:**
 
 - Backend API: https://qb-true-value.onrender.com/api/health
 - Frontend: *(coming soon)*
+
+## Data sources
+
+- NFL play-by-play (nflverse) — actual EPA per play and opponent defensive EPA.
+- NFL Next Gen Stats — average receiver separation and time to throw.
+- ESPN — pass block win rate.
+
+## Methodology
+
+Full methodology, including exactly what the model does, an honest discussion of
+its limitations, and how different audiences should use this tool, lives at
+`/methodology` on the live app (served from [docs/methodology.md](docs/methodology.md)).
+
+## Known limitations
+
+- The model's support features explain only a small share of season-to-season EPA
+  variance (cross-validated R² ≈ 0.03–0.04), so the predicted baseline is a rough
+  situational adjustment, not a precise forecast — see the methodology page for why
+  this is actually consistent with the project's thesis.
+- Average separation is a team-wide proxy, not a per-target number — Next Gen Stats
+  doesn't publish it at the quarterback level.
+- The model is fit once across all seasons, so it can't capture a team's
+  supporting cast changing faster than the data resolves.
+
+## Judging criteria alignment
+
+- **Analytical insight:** a single linear regression, fit once across every
+  qualifying QB-season on four public support/opponent features, isolates each
+  quarterback's own contribution as the residual between his actual and predicted
+  EPA per play.
+- **Practical application:** front offices evaluating a QB changing teams can look
+  at QB-created EPA instead of raw EPA, which otherwise overstates the value of a
+  QB leaving a strong supporting cast.
+- **Data presentation:** the leaderboard, decomposition waterfall, raw-vs-created
+  scatterplot, and year-over-year trend chart let a non-technical viewer see the
+  same finding from four different angles, with an interactive simulator to test
+  it themselves.
 
 ## Project structure
 
