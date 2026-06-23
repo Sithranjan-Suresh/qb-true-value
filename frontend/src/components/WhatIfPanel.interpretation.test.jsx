@@ -30,7 +30,7 @@ it('updates the interpretation sentence and delta when a slider moves', async ()
         onResult={() => {}}
         qbName="C.Stroud"
         actualEpaPerPlay={0.113}
-        actualQbComponent={0.2}
+        actualQbComponent={0.184}
       />,
     )
   })
@@ -40,10 +40,10 @@ it('updates the interpretation sentence and delta when a slider moves', async ()
 
   const initialText = panel.container.textContent
   expect(initialText).toContain('With these support conditions, C.Stroud would be expected to post')
-  // Even at his real recorded feature values, predicted_epa (-0.087) differs from his
-  // actual epa_per_play (0.113) -- that gap is qb_component by definition, so the
-  // delta here is correctly -0.200, not 0.
-  expect(initialText).toContain('-0.200 vs. actual conditions')
+  // Even at his real recorded feature values, predicted_epa (-0.071, under the
+  // two-step model) differs from his actual epa_per_play (0.113) -- that gap is
+  // qb_component by definition, so the delta here is correctly -0.184, not 0.
+  expect(initialText).toContain('-0.184 vs. actual conditions')
 
   const sliders = panel.container.querySelectorAll('input[type="range"]')
   const pbwrSlider = sliders[2] // pass_block_win_rate
@@ -61,5 +61,5 @@ it('updates the interpretation sentence and delta when a slider moves', async ()
   // Raising pass-block win rate to its max should raise predicted_epa, which should
   // shrink (not grow) his QB-created contribution -- the inverse relationship the
   // interpretation text exists to explain.
-  expect(updatedText).toMatch(/smaller than his actual 0\.200/)
+  expect(updatedText).toMatch(/smaller than his actual 0\.184/)
 })

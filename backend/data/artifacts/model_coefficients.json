@@ -1,12 +1,13 @@
 {
-  "intercept": -0.075,
+  "model": "two_step_gbm_ols",
+  "intercept": -0.118,
   "coefficients": {
-    "avg_separation": 0.032,
-    "time_to_throw": -0.132,
-    "pass_block_win_rate": 0.665,
-    "opponent_def_epa": 1.079
+    "avg_separation": 0.029,
+    "time_to_throw": -0.111,
+    "pass_block_win_rate": 0.586,
+    "opponent_def_epa": 1.022
   },
-  "league_baseline": 0.043,
+  "league_baseline": 0.041,
   "feature_ranges": {
     "avg_separation": [
       2.186,
@@ -25,5 +26,5 @@
       0.076
     ]
   },
-  "r_squared": 0.034
+  "r_squared": 0.036
 }

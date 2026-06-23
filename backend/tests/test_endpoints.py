@@ -84,6 +84,11 @@ def test_whatif_rejects_out_of_range_value(known_qb_row):
 
 
 def test_inference_roundtrip(known_qb_row):
+    # Under the two-step model, predict() returns only step 2's OLS piece (the
+    # support-feature contribution to the residual) -- not the absolute predicted
+    # EPA. predicted_epa = mean_expected_epa (step 1's situational baseline, fixed
+    # per QB-season) + that OLS piece, by construction in 04_train_model.py.
     features = {f: float(known_qb_row[f]) for f in FEATURES}
     predicted = inference.predict(features)
-    assert abs(predicted - known_qb_row["predicted_epa"]) < 1e-6
+    expected_ols_piece = known_qb_row["predicted_epa"] - known_qb_row["mean_expected_epa"]
+    assert abs(predicted - expected_ols_piece) < 1e-6

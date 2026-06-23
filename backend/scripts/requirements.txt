@@ -3,3 +3,5 @@ numpy
 nfl_data_py
 pyarrow
 openpyxl
+scikit-learn
+joblib

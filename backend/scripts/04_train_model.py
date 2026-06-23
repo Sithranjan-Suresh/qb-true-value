@@ -1,6 +1,8 @@
 """
-Fits the regression, computes the decomposition for every QB-season, validates
-the model, and persists coefficients.
+Step 2 of the two-step model: regresses each QB-season's residual (actual EPA minus
+the step-1 GBM's situation-only expected EPA, computed in 03_build_features.py)
+against the 4 support features using OLS. Computes the decomposition for every
+QB-season, validates the model, and persists coefficients.
 
 Usage:
     python 04_train_model.py
@@ -12,7 +14,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import GroupKFold, cross_val_score
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -32,26 +34,13 @@ SANITY_PAIRS = [
 ]
 
 
-def fit_and_select_model(X: np.ndarray, y: np.ndarray, groups: np.ndarray):
+def fit_ols(X: np.ndarray, y: np.ndarray, groups: np.ndarray):
     cv = GroupKFold(n_splits=5)
-    ols_scores = cross_val_score(LinearRegression(), X, y, cv=cv, groups=groups, scoring="r2")
-    ridge_scores = cross_val_score(Ridge(alpha=1.0), X, y, cv=cv, groups=groups, scoring="r2")
-
-    ols_r2 = ols_scores.mean()
-    ridge_r2 = ridge_scores.mean()
-
-    if ridge_r2 > ols_r2:
-        model_type, cv_r2 = "Ridge", ridge_r2
-        model = Ridge(alpha=1.0)
-    else:
-        model_type, cv_r2 = "OLS", ols_r2
-        model = LinearRegression()
-
+    cv_r2 = cross_val_score(LinearRegression(), X, y, cv=cv, groups=groups, scoring="r2").mean()
+    model = LinearRegression()
     model.fit(X, y)
-    print(f"OLS cross-validated R^2:   {ols_r2:.4f}")
-    print(f"Ridge cross-validated R^2: {ridge_r2:.4f}")
-    print(f"Selected model: {model_type} (cv R^2 = {cv_r2:.4f})")
-    return model, model_type, cv_r2
+    print(f"Step 2 OLS (residual ~ support features) cross-validated R^2: {cv_r2:.4f}")
+    return model, cv_r2
 
 
 def run_sanity_checks(scored: pd.DataFrame):
@@ -74,11 +63,19 @@ def run_sanity_checks(scored: pd.DataFrame):
 def main():
     df = pd.read_parquet(settings.QB_SEASON_PARQUET)
 
+    # Step 2's regression target is the residual left over after step 1's GBM
+    # already explained away pure game-state difficulty -- NOT raw epa_per_play.
+    # mean_expected_epa (from 03_build_features.py's fit_expected_epa_model) is
+    # season-specific (it depends on the exact down/distance/score-state/weather
+    # situations this QB's plays happened to be in), so qb_residual_epa already has
+    # situational difficulty stripped out before the 4 support features ever see it.
+    df["qb_residual_epa"] = df["epa_per_play"] - df["mean_expected_epa"]
+
     X = df[FEATURES].to_numpy()
-    y = df["epa_per_play"].to_numpy()
+    y = df["qb_residual_epa"].to_numpy()
     groups = df["qb_id"].to_numpy()
 
-    model, model_type, cv_r2 = fit_and_select_model(X, y, groups)
+    model, cv_r2 = fit_ols(X, y, groups)
 
     # Round the coefficients/intercept/baseline to the Part 0 3-decimal convention
     # *before* computing predicted_epa, not after — model_coefficients.json only ever
@@ -91,11 +88,22 @@ def main():
     # with what actually gets served.
     intercept = round(float(model.intercept_), 3)
     coefficients = {feat: round(float(coef), 3) for feat, coef in zip(FEATURES, model.coef_)}
-    league_baseline = round(float(df["epa_per_play"].mean()), 3)
 
-    df["predicted_epa"] = intercept + sum(coefficients[feat] * df[feat] for feat in FEATURES)
+    # league_baseline stays a SINGLE global constant (every page in the frontend
+    # fetches it once and reuses it for every row via the additive identity, per
+    # Part 0) -- it's the dataset-wide average of each QB-season's own situational
+    # baseline (mean_expected_epa), analogous to how it used to be the dataset-wide
+    # average of epa_per_play directly. A QB-season's OWN situational baseline can
+    # (and does) differ from this constant -- that gap is folded into
+    # support_component below, not into league_baseline, so "support" now means
+    # everything outside the QB's own residual control: both the explicit 4 support
+    # features AND how much harder/easier his actual situations were than average.
+    league_baseline = round(float(df["mean_expected_epa"].mean()), 3)
+
+    df["ols_support_prediction"] = intercept + sum(coefficients[feat] * df[feat] for feat in FEATURES)
+    df["predicted_epa"] = df["mean_expected_epa"] + df["ols_support_prediction"]
     df["support_component"] = df["predicted_epa"] - league_baseline
-    df["qb_component"] = df["epa_per_play"] - df["predicted_epa"]
+    df["qb_component"] = df["qb_residual_epa"] - df["ols_support_prediction"]
     df["support_share"] = (
         df["support_component"].abs()
         / (df["support_component"].abs() + df["qb_component"].abs() + 1e-9)
@@ -125,10 +133,15 @@ def main():
     }
 
     model_coefficients = {
+        "model": "two_step_gbm_ols",
         "intercept": intercept,
         "coefficients": coefficients,
         "league_baseline": league_baseline,
         "feature_ranges": {k: [round(v[0], 3), round(v[1], 3)] for k, v in feature_ranges.items()},
+        # Step 2 OLS's own cross-validated R^2, predicting the residual (not raw
+        # epa_per_play) from the 4 support features -- kept under the original key
+        # since nothing downstream reads model_coefficients.json for this value, it's
+        # informational only.
         "r_squared": round(float(cv_r2), 3),
     }
 
