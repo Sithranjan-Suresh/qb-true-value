@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { getLeaderboard, getQBDetail } from '../lib/api'
 import LeaderboardTable from '../components/LeaderboardTable'
 import BiggestMovers from '../components/BiggestMovers'
+import PlayersToWatch from '../components/PlayersToWatch'
 import { withRankDelta } from '../lib/ranks'
 import { DIVISIONS, TEAM_DIVISION } from '../lib/divisions'
 
@@ -110,6 +111,7 @@ export default function Leaderboard() {
       </div>
 
       <div className="mb-8">
+        <PlayersToWatch />
         <BiggestMovers />
       </div>
 
