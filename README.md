@@ -14,11 +14,15 @@ himself — so "good stats" and "good quarterback" stop being the same question.
   up exactly to the QB's real EPA per play.
 - Ranks quarterbacks by raw EPA and by QB-created EPA side by side, with season and
   division filters, surfacing the QBs whose situation is hiding or inflating their
-  real value.
+  real value — plus a forward-looking "Players to Watch" callout naming current QBs
+  whose 2025 QB-created EPA is running ahead of their raw stats.
 - Lets you simulate a QB in a different supporting cast with interactive What If?
   sliders, see in plain English how that changes what's attributable to him, and
   read off a Portability Score — what share of his production would travel with
   him to a new team.
+- An Explore page with a raw-vs-created scatterplot (quadrant-labeled: Elite,
+  Underrated, System-Dependent, Struggling) and a year-over-year trend chart on
+  every QB's profile page.
 
 ## How it works
 
@@ -136,7 +140,9 @@ limitations, and how different audiences should use this tool — lives at
   context, not just one or the other.
 - **Practical application:** front offices evaluating a QB changing teams can look
   at QB-created EPA and his Portability Score instead of raw EPA, which otherwise
-  overstates the value of a QB leaving a strong supporting cast.
+  overstates the value of a QB leaving a strong supporting cast — and the
+  leaderboard's Players to Watch callout turns that same logic into a current,
+  forward-looking read instead of only a historical one.
 - **Data presentation:** the leaderboard, decomposition waterfall, raw-vs-created
   scatterplot, year-over-year trend chart, and predictive-validity charts let a
   non-technical viewer see the same finding from multiple angles, with an
