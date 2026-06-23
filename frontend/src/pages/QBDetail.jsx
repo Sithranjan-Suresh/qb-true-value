@@ -4,6 +4,7 @@ import { getLeaderboard, getQBDetail } from '../lib/api'
 import DecompositionChart from '../components/DecompositionChart'
 import WhatIfPanel from '../components/WhatIfPanel'
 import YearOverYearChart from '../components/YearOverYearChart'
+import PortabilityScore from '../components/PortabilityScore'
 import { withRankDelta } from '../lib/ranks'
 
 const FETCH_TIMEOUT_MS = 8000
@@ -31,6 +32,12 @@ export default function QBDetail() {
   // leaderboard already carries qb_id, season, epa_per_play, and qb_created_epa.
   const [ownSeasons, setOwnSeasons] = useState([])
 
+  // Mean of (100 - support_share*100) across the full 250-row leaderboard pool
+  // (already fetched, above) -- the same magnitude-based portability ratio this
+  // page computes for the current QB, just averaged league-wide, so the gauge has
+  // a real comparison point rather than an arbitrary fixed number.
+  const [leagueAveragePortability, setLeagueAveragePortability] = useState(null)
+
   useEffect(() => {
     let timedOut = false
     const timer = setTimeout(() => {
@@ -56,6 +63,9 @@ export default function QBDetail() {
         const own = withRanks.find((row) => row.qb_id === qbId && row.season === Number(season))
         setRank(own?.createdRank ?? null)
         setOwnSeasons(leaderboard.filter((row) => row.qb_id === qbId))
+        const avgPortability =
+          leaderboard.reduce((sum, row) => sum + (100 - row.support_share * 100), 0) / leaderboard.length
+        setLeagueAveragePortability(avgPortability)
         setStatus('loaded')
       })
       .catch(() => {
@@ -120,6 +130,13 @@ export default function QBDetail() {
             qbName={detail.qb_name}
             actualEpaPerPlay={detail.epa_per_play}
             actualQbComponent={detail.qb_component}
+          />
+
+          <PortabilityScore
+            qbName={detail.qb_name}
+            qbComponent={detail.qb_component}
+            supportComponent={detail.support_component}
+            leagueAveragePct={leagueAveragePortability}
           />
 
           <YearOverYearChart qbId={detail.qb_id} seasons={ownSeasons} />
