@@ -13,6 +13,7 @@
   --color-qb: #f5a623;
   --color-qb-dim: rgba(245, 166, 35, 0.12);
   --color-qb-hover: #e8971a;
+  --color-gold-light: #ffd166;
   --color-green: #22c55e;
   --color-red: #ef4444;
   --color-blue: #60a5fa;
@@ -22,6 +23,7 @@
   /* Typography */
   --font-display: "Barlow Condensed", sans-serif;
   --font-body: "Inter", sans-serif;
+  --font-hero: "Bebas Neue", sans-serif;
   --text-xs: 11px;
   --text-sm: 13px;
   --text-base: 15px;
@@ -86,4 +88,66 @@ tr,
 
 .prose a {
   color: var(--color-qb);
+}
+
+/* Splash page only -- scoped under .splash-* so none of this leaks into the rest
+   of the app's design system or shared tokens. */
+
+.splash-grid-overlay {
+  background-image:
+    linear-gradient(rgba(245, 166, 35, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245, 166, 35, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.splash-dots {
+  background-image: radial-gradient(rgba(245, 166, 35, 0.35) 1px, transparent 1.5px);
+  background-size: 64px 64px;
+  animation: splash-drift 60s linear infinite;
+}
+
+@keyframes splash-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 128px 96px;
+  }
+}
+
+.splash-title-gradient {
+  background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-qb) 60%, var(--color-qb-hover) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.splash-pill {
+  background: #1a1a1a;
+  border: 1px solid rgba(245, 166, 35, 0.4);
+  border-radius: 999px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  padding: 8px 16px;
+  white-space: nowrap;
+}
+
+.splash-cta {
+  transition: box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.splash-cta:hover {
+  box-shadow: 0 0 32px 4px rgba(245, 166, 35, 0.45);
+  transform: translateY(-2px);
+}
+
+.splash-cta:hover .splash-cta-arrow {
+  transform: translateX(4px);
+}
+
+.splash-cta-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
 }
