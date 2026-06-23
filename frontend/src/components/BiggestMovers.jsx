@@ -11,21 +11,21 @@ const MOVERS = [
     qbName: 'R.Fitzpatrick',
     team: 'MIA',
     rawRank: 127,
-    createdRank: 20,
+    createdRank: 16,
     type: 'underrated',
     blurb:
-      "Ranked 127th by raw EPA, but 20th by QB-created EPA — he played behind the league's worst pass-blocking line that season (41% win rate, the lowest in the dataset) and still outperformed what that situation predicted.",
+      "Ranked 127th by raw EPA, but 16th by QB-created EPA — he played behind the league's worst pass-blocking line that season (41% win rate, the lowest in the dataset) and still outperformed what that situation predicted.",
   },
   {
-    qbId: '00-0035710',
-    season: 2020,
-    qbName: 'D.Jones',
-    team: 'NYG',
-    rawRank: 192,
-    createdRank: 111,
+    qbId: '00-0027973',
+    season: 2019,
+    qbName: 'A.Dalton',
+    team: 'CIN',
+    rawRank: 183,
+    createdRank: 87,
     type: 'underrated',
     blurb:
-      'Ranked 192nd by raw EPA, but 111th by QB-created EPA — a shaky Giants offensive line and tight separation numbers made his actual production look worse than his situation-adjusted value.',
+      'Ranked 183rd by raw EPA, but 87th by QB-created EPA — a below-average receiving corps (2.57 yards of separation, near the bottom of the league) and shaky pass protection made his actual production look worse than his situation-adjusted value.',
   },
   {
     qbId: '00-0022942',
@@ -33,10 +33,10 @@ const MOVERS = [
     qbName: 'P.Rivers',
     team: 'IND',
     rawRank: 35,
-    createdRank: 115,
+    createdRank: 114,
     type: 'overrated',
     blurb:
-      "Ranked 35th by raw EPA, but fell to 115th by QB-created EPA — a strong offensive line (60% pass-block win rate) and a soft slate of opposing defenses did most of the work.",
+      "Ranked 35th by raw EPA, but fell to 114th by QB-created EPA — a strong offensive line (60% pass-block win rate) and a soft slate of opposing defenses did most of the work.",
   },
 ]
 

@@ -32,6 +32,6 @@ A two-step model. Step 1 fits a gradient boosting model on play-by-play data, pr
 
 ## Concrete Findings
 
-In 2023, C.J. Stroud's raw EPA per play ranked **80th** out of 250 qualifying quarterback-seasons — fairly ordinary for a rookie. But his **QB-created value** ranks **5th** in the entire 2019–2025 dataset. The raw stat line undersold him; the decomposition tells a more accurate story about how much of his rookie production was actually his own doing.
+In 2023, C.J. Stroud's raw EPA per play ranked **80th** out of 250 qualifying quarterback-seasons — fairly ordinary for a rookie. But his **QB-created value** ranks **8th** in the entire 2019–2025 dataset. The raw stat line undersold him; the decomposition tells a more accurate story about how much of his rookie production was actually his own doing.
 
-Conversely, P.Rivers' 2020 raw EPA per play ranked **35th**, but his QB-created value falls to **115th** — a strong offensive line (60% pass-block win rate) and a soft slate of opposing defenses did most of the work that season, not him.
+Conversely, P.Rivers' 2020 raw EPA per play ranked **35th**, but his QB-created value falls to **114th** — a strong offensive line (60% pass-block win rate) and a soft slate of opposing defenses did most of the work that season, not him.

@@ -8,13 +8,16 @@ const KNOWN_LIMITATIONS_HEADING = '## Known Limitations'
 const HOW_TO_USE_HEADING = '## How to use this tool'
 
 // C.J. Stroud, 2023 -- league_baseline + support_component + qb_component = epa_per_play
-// (0.043 + -0.130 + 0.200 = 0.113), the same identity the waterfall chart on his QB page draws.
+// (0.041 + -0.112 + 0.184 = 0.113), the same identity the waterfall chart on his QB page draws.
+// Numbers reflect the two-step GBM+OLS model (see "The Model" below), not the
+// original single-step regression -- re-verify against /api/qbs/00-0039163/2023 if
+// the model is ever retrained again.
 const DECOMPOSITION_EXAMPLE = {
   total: 0.113,
   segments: [
-    { name: 'League Baseline', value: 0.043, color: '#374151' },
-    { name: 'Support Contribution', value: -0.13, color: '#4b5563' },
-    { name: 'QB Contribution', value: 0.2, color: '#f5a623' },
+    { name: 'League Baseline', value: 0.041, color: '#374151' },
+    { name: 'Support Contribution', value: -0.112, color: '#4b5563' },
+    { name: 'QB Contribution', value: 0.184, color: '#f5a623' },
   ],
 }
 
