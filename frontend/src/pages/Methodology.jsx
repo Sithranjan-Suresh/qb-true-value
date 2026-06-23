@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { getMethodology } from '../lib/api'
+import PredictiveValidityCharts from '../components/PredictiveValidityCharts'
+
+const HOW_TO_USE_HEADING = '## How to use this tool'
 
 // C.J. Stroud, 2023 -- league_baseline + support_component + qb_component = epa_per_play
 // (0.043 + -0.130 + 0.200 = 0.113), the same identity the waterfall chart on his QB page draws.
@@ -77,12 +80,23 @@ export default function Methodology() {
         </p>
       )}
 
-      {status === 'loaded' && content && (
-        <>
-          <DecompositionDiagram />
-          <ReactMarkdown>{content}</ReactMarkdown>
-        </>
-      )}
+      {status === 'loaded' && content && (() => {
+        // Splits the fetched markdown so PredictiveValidityCharts (a real React
+        // component, not prose) can render between "Known Limitations" and "How to
+        // use this tool" -- exactly where the spec asks for it -- without the
+        // backend's docs/methodology.md needing to know anything about charts.
+        const splitIndex = content.indexOf(HOW_TO_USE_HEADING)
+        const beforeHowToUse = splitIndex === -1 ? content : content.slice(0, splitIndex)
+        const fromHowToUse = splitIndex === -1 ? '' : content.slice(splitIndex)
+        return (
+          <>
+            <DecompositionDiagram />
+            <ReactMarkdown>{beforeHowToUse}</ReactMarkdown>
+            <PredictiveValidityCharts />
+            {fromHowToUse && <ReactMarkdown>{fromHowToUse}</ReactMarkdown>}
+          </>
+        )
+      })()}
     </main>
   )
 }
