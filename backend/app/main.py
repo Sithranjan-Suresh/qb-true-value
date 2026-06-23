@@ -9,7 +9,7 @@ app = FastAPI(title="QB True Value API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.ALLOWED_ORIGIN, "http://localhost:5173"],
+    allow_origins=list({*settings.ALLOWED_ORIGINS, "http://localhost:5173"}),
     allow_methods=["*"],
     allow_headers=["*"],
 )

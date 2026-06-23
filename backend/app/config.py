@@ -11,7 +11,13 @@ ARTIFACTS_DIR = BASE_DIR / "data" / "artifacts"
 
 
 class Settings:
-    ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "http://localhost:5173")
+    # Comma-separated list so prod + Vercel preview-deploy URLs can both be allowed
+    # without a code change -- e.g. "https://qb-true-value.vercel.app,https://qb-true-value-git-foo.vercel.app"
+    ALLOWED_ORIGINS = [
+        origin.strip()
+        for origin in os.environ.get("ALLOWED_ORIGIN", "http://localhost:5173").split(",")
+        if origin.strip()
+    ]
     PORT = int(os.environ.get("PORT", 8000))
     MIN_QUALIFYING_ATTEMPTS = MIN_QUALIFYING_ATTEMPTS
 
