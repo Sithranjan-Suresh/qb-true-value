@@ -7,6 +7,13 @@ import { useNavigate } from 'react-router-dom'
 // QB-created EPA is 0.45 (see the methodology page's "Does It Actually Predict?"
 // section), not strong enough to promise outperformance -- so this reads as "the
 // model suggests these guys' situations are working against them," not a forecast.
+//
+// Restricted to QBs with POSITIVE qb_created_epa, not just positive rank_delta --
+// the biggest mover in 2025 by rank_delta alone was actually J.Fields (-0.046 raw,
+// -0.032 created: a below-average QB who simply moved up less far below average),
+// which would have framed a bad season as a "watch this guy" recommendation. A
+// "players to watch" list implies a positive read, so it should only ever surface
+// QBs whose underlying production is real, not just QBs whose rank improved.
 const WATCH_LIST = [
   {
     qbId: '00-0036355',
@@ -27,13 +34,13 @@ const WATCH_LIST = [
       'Raw EPA ranks 97th this season, QB-created EPA ranks 67th — his receivers are getting modest separation (2.68 yards, below league median) for the level of play his QB-created number suggests.',
   },
   {
-    qbId: '00-0036945',
-    qbName: 'J.Fields',
-    team: 'NYJ',
-    rawRank: 190,
-    createdRank: 164,
+    qbId: '00-0039163',
+    qbName: 'C.Stroud',
+    team: 'HOU',
+    rawRank: 119,
+    createdRank: 101,
     blurb:
-      "Raw EPA ranks 190th this season, QB-created EPA ranks 164th — still a rough season either way, but more of it traces back to his situation (63% of his production gap is support-driven) than his own play.",
+      'Raw EPA ranks 119th this season, QB-created EPA ranks 101st — a quieter season than his 2023 rookie year, but the same pattern: his support (56% pass-block win rate, a tougher slate of defenses) is underselling him again.',
   },
 ]
 
